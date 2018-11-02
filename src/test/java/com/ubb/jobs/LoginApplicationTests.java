@@ -1,4 +1,4 @@
-package com.ubb.jobs.login;
+package com.ubb.jobs;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

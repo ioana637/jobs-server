@@ -1,4 +1,4 @@
-package com.ubb.jobs.login;
+package com.ubb.jobs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

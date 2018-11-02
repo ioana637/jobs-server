@@ -1,4 +1,4 @@
-package com.ubb.jobs.login.config;
+package com.ubb.jobs.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
