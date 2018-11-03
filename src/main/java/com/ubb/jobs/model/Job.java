@@ -13,15 +13,15 @@ import java.util.List;
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "JOB_ID")
+    @Column(name = "ID_JOB")
     private Integer id;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "JOB_ID")
-    private List<Request> requestList;
+    @JoinColumn(name = "JOB")
+    private List<Request> requests;
 
-    @Column(name = "CLIENT_ID")
-    private Integer clientId;
+    @Column(name = "ID_CLIENT")
+    private Integer idClient;
 
     @Column(name = "PERIOD_START")
     private Date periodStart;
@@ -51,13 +51,13 @@ public class Job {
     private Integer hoursPerWeek;
 
     @ElementCollection
-    @CollectionTable(name = "ProvidersJobs", joinColumns = @JoinColumn(name = "ID_JOB"))
-    @Column(name = "ID_PROVIDER")
+    @CollectionTable(name = "ProvidersJobs", joinColumns = @JoinColumn(name = "ID_PROVIDER"))
+    @Column(name = "ID_JOB")
     private List<Long> providers;
 
     @ElementCollection
-    @CollectionTable(name = "JobAbilities", joinColumns = @JoinColumn(name = "ID_JOB"))
-    @Column(name = "JOB_CODE")
+    @CollectionTable(name = "JobAbilities", joinColumns = @JoinColumn(name = "CODE_JOB"))
+    @Column(name = "ID_JOB")
     private List<Long> abilities;
 
 }

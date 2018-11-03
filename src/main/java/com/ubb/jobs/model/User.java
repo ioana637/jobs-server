@@ -68,7 +68,7 @@ public class User {
     @Column(name = "STAR_AVG")
     private Float starAvg;
 
-    @Column(name = "Role")
+    @Column(name = "ROLE")
     private Role role;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -80,22 +80,30 @@ public class User {
     private List<Recommendation> recommendationsProvider;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "FROM")
+    @JoinColumn(name = "USER_FROM")
     private List<Request> requestsMade;
 
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "TO")
+    @JoinColumn(name = "USER_TO")
     private List<Request> requestsReceived;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ID_USER")
     private List<UserAbilities> userAbilities;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ID_CLIENT")
+    private List<Job> jobs;
 
     @ElementCollection
-    @CollectionTable(name = "ProvidersJobs", joinColumns = @JoinColumn(name = "ID"))
-    @Column(name = "ID_JOB")
-    private List<Long> jobs;
+    @CollectionTable(name = "ProvidersJobs", joinColumns = @JoinColumn(name = "ID_JOB"))
+    @Column(name = "ID")
+    private List<Long> requestedJobs;
+
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ID_USER")
+    private List<Review> reviews;
 
 }

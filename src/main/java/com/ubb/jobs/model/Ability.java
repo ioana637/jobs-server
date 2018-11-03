@@ -22,12 +22,19 @@ public class Ability {
     @Column(name = "DISPLAY")
     private String display;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ID_ABILITY")
-    private List<UserAbilities> userAbilities;
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "ID_ABILITY", table = "UserAbilities")
+//    private List<UserAbilities> userAbilities;
+//
+//    It doesn't create another foreign key
+//    @ElementCollection
+//    @CollectionTable(name = "UserAbilities", joinColumns = @JoinColumn(name = "ID_ABILITY"))
+//    @Column(name = "ID")
+//    private List<Integer> userAbilities;
+
 
     @ElementCollection
-    @CollectionTable(name = "JobAbilities", joinColumns = @JoinColumn(name = "ID"))
-    @Column(name = "ABILITY_CODE")
+    @CollectionTable(name = "JobAbilities", joinColumns = @JoinColumn(name = "CODE_ABILITY"))
+    @Column(name = "ID")
     private List<Long> abilities;
 }

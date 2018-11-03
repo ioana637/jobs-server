@@ -1,10 +1,14 @@
 package com.ubb.jobs.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Table(name = "Requests")
 public class Request {
@@ -14,13 +18,13 @@ public class Request {
     @Column(name = "ID")
     private Integer id;
 
-    @Column(name = "FROM")
-    private Integer from;
+    @Column(name = "USER_FROM")
+    private Integer userFrom;
 
-    @Column(name = "TO")
-    private Integer to;
+    @Column(name = "USER_TO")
+    private Integer userTo;
 
-    @Column(name = "JOB_ID")
-    private Integer jobId;
+    @Column(name = "JOB")
+    private Integer idJob;
 
 }
