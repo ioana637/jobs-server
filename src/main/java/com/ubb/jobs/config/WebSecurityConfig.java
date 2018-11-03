@@ -19,7 +19,7 @@ import java.util.Arrays;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
+    // don't touch any of this
 
     @Autowired
     private CustomAuthProvider authProvider;
