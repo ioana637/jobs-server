@@ -1,11 +1,12 @@
 package com.ubb.jobs.model;
 
+import com.ubb.jobs.utils.mapper.LocalDateConverter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -45,7 +46,8 @@ public class User {
     private String email;
 
     @Column(name = "BIRTH_DATE")
-    private Date birthDate;
+    @Convert(converter = LocalDateConverter.class)
+    private LocalDate birthDate;
 
     @Column(name = "USERNAME", unique = true)
     private String username;
