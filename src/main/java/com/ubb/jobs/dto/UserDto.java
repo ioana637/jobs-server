@@ -19,4 +19,34 @@ public class UserDto {
     private String password;
 
     private String role;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String address;
+
+    private Integer postalCode;
+
+    private String city;
+
+    private String country;
+
+    private String phone;
+
+    private String email;
+
+    private String birthDate;
+
+
+    private Boolean subscribed;
+
+    private String facebook;
+
+    private String instagram;
+
+    private String twitter;
+
+    private Float starAvg;
+
 }
