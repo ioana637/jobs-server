@@ -53,11 +53,11 @@ public class Job {
     @ElementCollection
     @CollectionTable(name = "ProvidersJobs", joinColumns = @JoinColumn(name = "ID_PROVIDER"))
     @Column(name = "ID_JOB")
-    private List<Long> providers;
+    private List<Integer> providers;
 
     @ElementCollection
     @CollectionTable(name = "JobAbilities", joinColumns = @JoinColumn(name = "CODE_JOB"))
     @Column(name = "ID_JOB")
-    private List<Long> abilities;
+    private List<Integer> abilities;
 
 }
