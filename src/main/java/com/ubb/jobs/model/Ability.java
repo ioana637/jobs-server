@@ -36,5 +36,5 @@ public class Ability {
     @ElementCollection
     @CollectionTable(name = "JobAbilities", joinColumns = @JoinColumn(name = "CODE_ABILITY"))
     @Column(name = "ID")
-    private List<Long> abilities;
+    private List<Integer> abilities;
 }
