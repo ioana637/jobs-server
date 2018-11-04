@@ -99,7 +99,7 @@ public class User {
     @ElementCollection
     @CollectionTable(name = "ProvidersJobs", joinColumns = @JoinColumn(name = "ID_JOB"))
     @Column(name = "ID")
-    private List<Long> requestedJobs;
+    private List<Integer> requestedJobs;
 
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
