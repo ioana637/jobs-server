@@ -1,8 +1,11 @@
 package com.ubb.jobs.model;
 
+import com.ubb.jobs.utils.mapper.LocalDateConverter;
+import com.ubb.jobs.utils.mapper.LocalTimeConverter;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -24,10 +27,12 @@ public class Job {
     private Integer idClient;
 
     @Column(name = "PERIOD_START")
-    private Date periodStart;
+    @Convert(converter = LocalDateConverter.class)
+    private LocalDate periodStart;
 
     @Column(name = "PERIOD_END")
-    private Date periodEnd;
+    @Convert(converter = LocalDateConverter.class)
+    private LocalDate periodEnd;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -39,9 +44,11 @@ public class Job {
     private Boolean available;
 
     @Column(name = "START_TIME")
+    @Convert(converter = LocalTimeConverter.class)
     private LocalTime startTime;
 
     @Column(name = "END_TIME")
+    @Convert(converter = LocalTimeConverter.class)
     private LocalTime endTime;
 
     @Column(name = "HOURS_PER_DAY")
