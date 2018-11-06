@@ -22,7 +22,7 @@ public class JobDto {
 
     private String description;
 
-    private Integer peopleRequired;
+    private String peopleRequired;
 
     private Boolean available;
 
@@ -30,9 +30,9 @@ public class JobDto {
 
     private String endTime;
 
-    private Integer hoursPerDay;
+    private String hoursPerDay;
 
-    private Integer hoursPerWeek;
+    private String hoursPerWeek;
 
     private List<AbilityDto> abilities;
 
