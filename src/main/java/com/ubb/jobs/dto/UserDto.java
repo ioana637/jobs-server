@@ -28,7 +28,7 @@ public class UserDto {
 
     private String address;
 
-    private Integer postalCode;
+    private String postalCode;
 
     private String city;
 
@@ -48,6 +48,6 @@ public class UserDto {
 
     private String twitter;
 
-    private Float starAvg;
+    private String starAvg;
 
 }
