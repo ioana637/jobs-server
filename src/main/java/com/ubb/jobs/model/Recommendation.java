@@ -1,10 +1,12 @@
 package com.ubb.jobs.model;
 
+import com.ubb.jobs.utils.mapper.LocalDateTimeConverter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,6 +31,7 @@ public class Recommendation {
     private String description;
 
     @Column(name = "DATE")
+    @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime date;
 
 

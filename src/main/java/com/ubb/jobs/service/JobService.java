@@ -22,21 +22,12 @@ public class JobService {
 
     public List<JobDto> findAll() {
         List<JobDto> dtos = jobRepo.findAll();
-        dtos = dtos.stream().map(job-> {
-            UserDto userDto = userRepo.getOne(Integer.valueOf(job.getClient().getId()));
-            job.setClient(userDto);
-            return job;
-        }).collect(Collectors.toList());
         return dtos;
     }
 
     public List<JobDto> findForClientId(Integer id) {
         List<JobDto> dtos = jobRepo.getForClientId(id);
-        dtos = dtos.stream().map(job-> {
-            UserDto userDto = userRepo.getOne(Integer.valueOf(job.getClient().getId()));
-            job.setClient(userDto);
-            return job;
-        }).collect(Collectors.toList());
+
         return dtos;
     }
 

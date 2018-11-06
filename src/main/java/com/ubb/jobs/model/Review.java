@@ -1,5 +1,6 @@
 package com.ubb.jobs.model;
 
+import com.ubb.jobs.utils.mapper.LocalDateTimeConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -24,5 +25,6 @@ public class Review {
     private String description;
 
     @Column(name = "DATE")
+    @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime date;
 }

@@ -15,12 +15,10 @@ import java.util.stream.Collectors;
 public interface JobMapper {
 
     @Mappings({
-            @Mapping(target = "idClient", source = "client.id"),
             @Mapping(target = "abilities", expression = "java(abilitiesToIds(jobDto.getAbilities()))")
     })
     Job toEntity(JobDto jobDto);
     @Mappings({
-            @Mapping(target = "client.id", source = "idClient"),
             @Mapping(target = "abilities", expression = "java(idsToAbilities(job.getAbilities()))")
     })
     JobDto toDto (Job job);

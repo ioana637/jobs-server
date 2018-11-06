@@ -49,5 +49,4 @@ public class UserDto {
     private String twitter;
 
     private String starAvg;
-
 }

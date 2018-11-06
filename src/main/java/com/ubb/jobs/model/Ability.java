@@ -22,9 +22,9 @@ public class Ability {
     @Column(name = "DISPLAY")
     private String display;
 
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "ID_ABILITY", table = "UserAbilities")
-//    private List<UserAbilities> userAbilities;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ID_ABILITY", table = "UserAbilities")
+    private List<UserAbilities> userAbilities;
 //
 //    It doesn't create another foreign key
 //    @ElementCollection
