@@ -18,8 +18,13 @@ public class UserRepo {
 
     // Example on how to get data from repository
 
-    public UserDto getUser(User user) {
+    public UserDto getByUsernameAndPassword(User user) {
         User received = jpaUserRepo.findUserByUsernameAndPassword(user.getUsername(), user.getPassword());
         return userMapper.toDto(received);
+    }
+
+    public UserDto getOne(Integer id) {
+        User user = jpaUserRepo.getOne(id);
+        return userMapper.toDto(user);
     }
 }

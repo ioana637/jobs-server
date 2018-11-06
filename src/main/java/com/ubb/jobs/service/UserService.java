@@ -16,7 +16,7 @@ public class UserService {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
-        return userRepo.getUser(user);
+        return userRepo.getByUsernameAndPassword(user);
     }
 
 }

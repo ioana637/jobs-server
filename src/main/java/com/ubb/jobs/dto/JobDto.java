@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,5 +33,7 @@ public class JobDto {
     private Integer hoursPerDay;
 
     private Integer hoursPerWeek;
+
+    private List<AbilityDto> abilities;
 
 }
