@@ -32,7 +32,12 @@ public class JobService {
 
     public List<JobDto> findForClientId(Integer id, int pageNumber, int pageSize) {
         List<JobDto> dtos = jobRepo.getForClientIdPaginated(id, pageNumber, pageSize);
-        dtos.stream().map(job -> job.getAbilities().stream().map(abilityDto -> {return abilityRepo.getAbilityById(Integer.valueOf(abilityDto.getId()));}).collect(Collectors.toList())).collect(Collectors.toList());
+        dtos =  dtos.stream().map(job -> {
+
+               job.setAbilities(job.getAbilities().stream().map(abilityDto ->
+                        abilityRepo.getAbilityById(Integer.valueOf(abilityDto.getId()))).collect(Collectors.toList()));
+        return job;
+        }).collect(Collectors.toList());
         return dtos;
     }
 
