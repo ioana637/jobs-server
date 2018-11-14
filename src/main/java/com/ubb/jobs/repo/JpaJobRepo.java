@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface JpaJobRepo extends JpaRepository<Job, Integer> {
-
     List<Job> findJobsByIdClient(Integer id);
+
 }
