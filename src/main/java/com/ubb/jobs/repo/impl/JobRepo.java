@@ -26,9 +26,9 @@ public class JobRepo {
     }
 
 
-    // the parameter will most likely be changed, based on the needs from the front-end
-    public List<JobDto> getForClientId(Integer clientId) {
+    public List<JobDto> getForClientIdPaginated(Integer clientId, int startIndex, int pageSize) {
         List<Job> jobs = jobRepo.findJobsByIdClient(clientId);
+        jobs = jobs.subList(startIndex, startIndex + pageSize);
         return jobMapper.toDtos(jobs);
     }
 }
