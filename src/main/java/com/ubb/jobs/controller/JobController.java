@@ -21,14 +21,14 @@ public class JobController {
     @Autowired
     private JobService jobService;
 
-    @GetMapping("/{userId}/page?limit={pageSize}&start={start}")
-    public ResponseEntity<List<JobDto>> getJobsPaginated(@RequestBody Integer userId, Integer pageSize, Integer start) {
-        List<JobDto> jobs = jobService.findForClientId(userId, start, pageSize);
+    @GetMapping("/user={userId}&limit={pageSize}&start={pageNumber}")
+    public ResponseEntity<List<JobDto>> getJobsPaginated(@PathVariable("userId") Integer userId, @PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber) {
+        List<JobDto> jobs = jobService.findForClientId(userId, pageNumber, pageSize);
         if (jobs == null) {
             log.info("Unable to find any jobs for the given user");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        log.info("Returning " + pageSize + " starting from index " + start);
+        log.info("Returning " + jobs.size() + " from page " + pageNumber);
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
