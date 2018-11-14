@@ -6,6 +6,9 @@ import com.ubb.jobs.repo.JpaJobRepo;
 import com.ubb.jobs.repo.JpaUserRepo;
 import com.ubb.jobs.utils.mapper.JobMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,9 +29,8 @@ public class JobRepo {
     }
 
 
-    public List<JobDto> getForClientIdPaginated(Integer clientId, int startIndex, int pageSize) {
-        List<Job> jobs = jobRepo.findJobsByIdClient(clientId);
-        jobs = jobs.subList(startIndex, startIndex + pageSize);
-        return jobMapper.toDtos(jobs);
+    public List<JobDto> getForClientIdPaginated(Integer clientId, int pageNumber, int pageSize) {
+        Page<Job> jobs = jobRepo.findAllByIdClient(clientId, PageRequest.of(pageNumber, pageSize));
+        return jobMapper.toDtos(jobs.getContent());
     }
 }
