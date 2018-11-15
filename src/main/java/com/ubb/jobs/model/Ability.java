@@ -34,7 +34,7 @@ public class Ability {
     private List<Integer> userAbilities;
 
 
-    @OneToMany(mappedBy = "ability", targetEntity = JobAblitiesRelation.class)
+    @ManyToMany(mappedBy = "abilities")
     private List<Job> jobs;
 //    @ElementCollection
 //    @CollectionTable(name = "JobAbilities", joinColumns = @JoinColumn(name = "CODE_ABILITY"))

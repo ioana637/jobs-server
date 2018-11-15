@@ -63,7 +63,9 @@ public class Job {
     private List<Integer> providers;
 
 
-    @OneToMany(mappedBy = "job", targetEntity = JobAblitiesRelation.class)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name ="JobAbilities", joinColumns = @JoinColumn(name = "CODE_JOB"),
+    inverseJoinColumns = @JoinColumn(name = "CODE_ABILITY"))
     private List<Ability> abilities;
 //    @ElementCollection
 //    @CollectionTable(name = "JobAbilities", joinColumns = @JoinColumn(name = "CODE_JOB"))
