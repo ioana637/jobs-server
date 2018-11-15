@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Entity
@@ -59,12 +60,17 @@ public class Job {
 
     @ElementCollection
     @CollectionTable(name = "ProvidersJobs", joinColumns = @JoinColumn(name = "ID_PROVIDER"))
-    @Column(name = "ID_JOB")
     private List<Integer> providers;
 
-    @ElementCollection
-    @CollectionTable(name = "JobAbilities", joinColumns = @JoinColumn(name = "CODE_JOB"))
-    @Column(name = "ID_JOB")
-    private List<Integer> abilities;
+
+    @OneToMany(mappedBy = "job", targetEntity = JobAblitiesRelation.class)
+    private List<Ability> abilities;
+//    @ElementCollection
+//    @CollectionTable(name = "JobAbilities", joinColumns = @JoinColumn(name = "CODE_JOB"))
+//    @MapKeyJoinColumn(name = "CODE_ABILITY")
+//    @Column(name="CODE_ABILITY")
+
+//    Map<Integer, JobAblitiesRelation> abilities;
+//    private List<Integer> abilities;
 
 }

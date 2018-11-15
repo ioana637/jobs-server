@@ -32,4 +32,14 @@ public class JobController {
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
+    @PostMapping("/save")
+    public ResponseEntity<JobDto> save(@RequestBody JobDto job) {
+        JobDto saved = jobService.add(job);
+        if (saved == null) {
+            log.info("Unable to find any jobs for the given user");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Saved" + saved);
+        return new ResponseEntity<>(saved, HttpStatus.OK);
+    }
 }

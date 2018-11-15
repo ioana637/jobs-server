@@ -28,6 +28,11 @@ public class JobRepo {
         return jobMapper.toDtos(jobs);
     }
 
+    public JobDto addJob(JobDto job) {
+        Job saved = jobRepo.save(jobMapper.toEntity(job));
+        return jobMapper.toDto(saved);
+
+    }
 
     public List<JobDto> getForClientIdPaginated(Integer clientId, int pageNumber, int pageSize) {
         Page<Job> jobs = jobRepo.findAllByIdClient(clientId, PageRequest.of(pageNumber, pageSize));

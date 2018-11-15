@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Entity
@@ -29,12 +30,15 @@ public class Ability {
 //    It doesn't create another foreign key
     @ElementCollection
     @CollectionTable(name = "UserAbilities", joinColumns = @JoinColumn(name = "ID_ABILITY"))
-    @Column(name = "ID")
+
     private List<Integer> userAbilities;
 
 
-    @ElementCollection
-    @CollectionTable(name = "JobAbilities", joinColumns = @JoinColumn(name = "CODE_ABILITY"))
-    @Column(name = "ID")
-    private List<Integer> jobAbilities;
+    @OneToMany(mappedBy = "ability", targetEntity = JobAblitiesRelation.class)
+    private List<Job> jobs;
+//    @ElementCollection
+//    @CollectionTable(name = "JobAbilities", joinColumns = @JoinColumn(name = "CODE_ABILITY"))
+//    @MapKeyJoinColumn(name = "CODE_JOB")
+//    Map<Integer, JobAblitiesRelation> jobAbilities;
+//    private List<Integer> jobAbilities;
 }

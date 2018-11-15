@@ -41,5 +41,8 @@ public class JobService {
         return dtos;
     }
 
+    public JobDto add(JobDto dto) {
+        return jobRepo.addJob(dto);
+    }
 
 }
