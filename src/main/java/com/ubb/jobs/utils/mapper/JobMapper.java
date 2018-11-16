@@ -2,16 +2,13 @@ package com.ubb.jobs.utils.mapper;
 
 import com.ubb.jobs.dto.AbilityDto;
 import com.ubb.jobs.dto.JobDto;
-import com.ubb.jobs.model.Ability;
 import com.ubb.jobs.model.Job;
-import com.ubb.jobs.model.JobAblitiesRelation;
+import com.ubb.jobs.model.JobAbility;
 import com.ubb.jobs.model.Level;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
@@ -29,7 +26,13 @@ public interface JobMapper {
     List<Job> toEntities(List<JobDto> dtos);
     List<JobDto> toDtos(List<Job> entities);
 
-//    default List<AbilityDto> idsToAbilities(Map<Integer, JobAblitiesRelation> ids) {
+
+    default List<AbilityDto> idsToAbilities(List<JobAbility> ids) {
+        AbilityMapper mapper = Mappers.getMapper(AbilityMapper.class);
+        return ids == null ? null : ids.stream().map(id->mapper.toDtos(id.getAbility())).collect(Collectors.toList());
+    }
+
+//    default List<AbilityDto> idsToAbilities(Map<Integer, JobAbility> ids) {
 //        return ids.keySet().stream().map(integer -> {
 //            AbilityDto abilityDto = new AbilityDto();
 //            abilityDto.setId(String.valueOf(integer));
@@ -37,8 +40,13 @@ public interface JobMapper {
 //        }).collect(Collectors.toList());
 //    }
 
-//    default Map<Integer, JobAblitiesRelation> abilitiesToIds(List<AbilityDto> abilities) {
-////        return abilities.stream().collect(Collectors.toMap(key-> Integer.valueOf(key.getId()), value -> new JobAblitiesRelation(Level.valueOf(value.getLevel()))));
-//    }
+    default List<JobAbility> abilitiesToIds(List<AbilityDto> abilities) {
+        AbilityMapper mapper = Mappers.getMapper(AbilityMapper.class);
+        return abilities == null ? null : abilities.stream().map(abilityDto -> {
+            JobAbility jobAbility = new JobAbility();
+            jobAbility.setLevel(Level.valueOf(abilityDto.getLevel()));
+        jobAbility.setAbility(mapper.toEntity(abilityDto));
+        return jobAbility;}).collect(Collectors.toList());
+    }
 }
 

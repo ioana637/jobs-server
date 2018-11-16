@@ -7,6 +7,8 @@ import com.ubb.jobs.utils.mapper.AbilityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class AbilityRepo {
 
@@ -18,7 +20,12 @@ public class AbilityRepo {
 
     public AbilityDto getAbilityById(Integer id) {
         Ability ability =  repo.getOne(id);
-        return mapper.toDto(ability);
+        return mapper.toDtos(ability);
+    }
+
+    public List<AbilityDto> saveAll(List<AbilityDto> abilities) {
+        List<Ability> saved = repo.saveAll(mapper.toEntities(abilities));
+        return mapper.toDtos(saved);
     }
 
 }

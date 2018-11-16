@@ -4,16 +4,17 @@ import lombok.Data;
 import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 @Data
 @Entity
 @Table(name = "Abilities")
-public class Ability {
+public class Ability  {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID_ABILITY")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -33,12 +34,12 @@ public class Ability {
 
     private List<Integer> userAbilities;
 
-
-    @ManyToMany(mappedBy = "abilities")
-    private List<Job> jobs;
+//
+    @OneToMany(mappedBy = "ability", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<JobAbility> jobs;
 //    @ElementCollection
-//    @CollectionTable(name = "JobAbilities", joinColumns = @JoinColumn(name = "CODE_ABILITY"))
+//    @CollectionTable(name = "JobAbility", joinColumns = @JoinColumn(name = "CODE_ABILITY"))
 //    @MapKeyJoinColumn(name = "CODE_JOB")
-//    Map<Integer, JobAblitiesRelation> jobAbilities;
+//    Map<Integer, JobAbility> jobAbilities;
 //    private List<Integer> jobAbilities;
 }

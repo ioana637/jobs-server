@@ -7,14 +7,12 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Entity
 @Table(name = "Jobs")
-public class Job {
+public class Job  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_JOB")
@@ -63,16 +61,17 @@ public class Job {
     private List<Integer> providers;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name ="JobAbilities", joinColumns = @JoinColumn(name = "CODE_JOB"),
-    inverseJoinColumns = @JoinColumn(name = "CODE_ABILITY"))
-    private List<Ability> abilities;
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @JoinTable(name ="JobAbility", joinColumns = @JoinColumn(name = "CODE_JOB"),
+//    inverseJoinColumns = @JoinColumn(name = "CODE_ABILITY"))
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "job", fetch = FetchType.LAZY)
 //    @ElementCollection
-//    @CollectionTable(name = "JobAbilities", joinColumns = @JoinColumn(name = "CODE_JOB"))
+//    @CollectionTable(name = "JobAbility", joinColumns = @JoinColumn(name = "CODE_JOB"))
 //    @MapKeyJoinColumn(name = "CODE_ABILITY")
 //    @Column(name="CODE_ABILITY")
+    private List<JobAbility> abilities;
 
-//    Map<Integer, JobAblitiesRelation> abilities;
+//    Map<Integer, JobAbility> abilities;
 //    private List<Integer> abilities;
 
 }

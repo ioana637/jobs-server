@@ -10,8 +10,8 @@ import java.util.List;
 public interface AbilityMapper {
 
     Ability toEntity(AbilityDto dto);
-    AbilityDto toDto(Ability entity);
+    AbilityDto toDtos(Ability entity);
     List<Ability> toEntities(List<AbilityDto> dtos);
-    List<AbilityDto> toDto(List<Ability> entities);
+    List<AbilityDto> toDtos(List<Ability> entities);
 
 }
