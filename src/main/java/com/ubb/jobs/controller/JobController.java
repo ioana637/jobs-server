@@ -32,7 +32,7 @@ public class JobController {
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<JobDto> save(@RequestBody JobDto job) {
         JobDto saved = jobService.add(job);
         if (saved == null) {
