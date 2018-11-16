@@ -59,7 +59,7 @@ public class JobService {
             return jobAbilityDto;
         }).collect(Collectors.toList());
         jobAbilityRepo.saveAll(jobAbilityDtos);
-        return jobRepo.addJob(dto);
+        return saved;
     }
 
 }

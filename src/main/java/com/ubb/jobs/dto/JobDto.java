@@ -17,6 +17,8 @@ public class JobDto {
 
     private String id;
 
+    private String idClient;
+
     private String periodStart;
 
     private String periodEnd;
