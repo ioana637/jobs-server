@@ -47,6 +47,8 @@ public class JobService {
 
     public JobDto add(JobDto dto) {
         List<AbilityDto> abilityDtos = abilityRepo.saveAll(dto.getAbilities());
+        for (int i = 0; i < abilityDtos.size(); i++)
+            abilityDtos.get(i).setLevel(dto.getAbilities().get(i).getLevel());
         dto.setAbilities(null);
         JobDto saved =  jobRepo.addJob(dto);
         List<JobAbilityDto> jobAbilityDtos = abilityDtos.stream().map(abilityDto -> {
