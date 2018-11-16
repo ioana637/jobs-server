@@ -10,15 +10,18 @@ import javax.persistence.*;
 @IdClass(UserAbilitiesPK.class)
 public class UserAbilities {
 
-    @Id
-    @Column(name = "ID_USER")
-    private Integer idUser;
-
-    @Id
-    @Column(name = "ID_ABILITY")
-    private Integer idAbility;
-
     @Column(name = "LEVEL")
     private Level level;
+
+
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @Id
+    @JoinColumn(name = "ID_USER")
+    private User user;
+
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @Id
+    @JoinColumn(name = "ID_ABILITY")
+    private Ability ability;
 
 }
