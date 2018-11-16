@@ -18,7 +18,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "ID_USER")
     private Integer id;
 
     @Column(name = "FIRST_NAME")
@@ -90,8 +90,7 @@ public class User {
     @JoinColumn(name = "USER_TO")
     private List<Request> requestsReceived;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ID_USER")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private List<UserAbilities> userAbilities;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

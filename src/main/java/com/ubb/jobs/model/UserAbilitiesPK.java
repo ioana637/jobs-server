@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserAbilitiesPK implements Serializable {
-    private Integer idUser;
+    private Integer user;
 
-    private Integer idAbility;
+    private Integer ability;
 }

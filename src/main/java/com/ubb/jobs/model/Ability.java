@@ -24,17 +24,10 @@ public class Ability  {
     @Column(name = "DISPLAY")
     private String display;
 
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "ID_ABILITY", table = "UserAbilities")
-//    private List<UserAbilities> userAbilities;
-//
-//    It doesn't create another foreign key
-    @ElementCollection
-    @CollectionTable(name = "UserAbilities", joinColumns = @JoinColumn(name = "ID_ABILITY"))
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "ability")
+    private List<UserAbilities> userAbilities;
 
-    private List<Integer> userAbilities;
-
-//
+    //
     @OneToMany(mappedBy = "ability", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<JobAbility> jobs;
 //    @ElementCollection
