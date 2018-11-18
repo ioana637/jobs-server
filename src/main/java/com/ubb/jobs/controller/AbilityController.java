@@ -1,6 +1,7 @@
 package com.ubb.jobs.controller;
 
 import com.ubb.jobs.dto.AbilityDto;
+import com.ubb.jobs.model.Level;
 import com.ubb.jobs.service.AbilityService;
 import com.ubb.jobs.utils.constants.EndPoint;
 import lombok.extern.slf4j.Slf4j;
@@ -28,5 +29,12 @@ public class AbilityController {
         List<AbilityDto> abilities = abilityService.findAll();
         log.info("Returning " + abilities.toString());
         return new ResponseEntity<>(abilities, HttpStatus.OK);
+    }
+
+    @GetMapping(EndPoint.ABILITY_LEVELS)
+    public ResponseEntity<List<Level>> getAllLevels() {
+        List<Level> levels = abilityService.findAllAbilitiesLevels();
+        log.info("Returning " + levels.toString());
+        return new ResponseEntity<>(levels, HttpStatus.OK);
     }
 }
