@@ -4,6 +4,7 @@ import com.ubb.jobs.dto.UserDto;
 import com.ubb.jobs.model.User;
 import com.ubb.jobs.service.UserService;
 import com.ubb.jobs.utils.constants.EndPoint;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
+@Slf4j
 @RequestMapping(EndPoint.LOGIN)
 public class LoginController {
 
