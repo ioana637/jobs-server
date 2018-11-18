@@ -32,4 +32,15 @@ public class LoginController {
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<UserDto> save(@RequestBody UserDto user) {
+        UserDto saved = service.add(user);
+        if (saved == null) {
+            log.info("Unable to register this user!");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Saved" + saved);
+        return new ResponseEntity<>(saved, HttpStatus.OK);
+    }
+
 }

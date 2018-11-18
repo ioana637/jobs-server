@@ -27,4 +27,10 @@ public class UserRepo {
         User user = jpaUserRepo.getOne(id);
         return userMapper.toDto(user);
     }
+
+    public UserDto addUser(UserDto user) {
+        User saved = jpaUserRepo.save(userMapper.toEntity(user));
+        return userMapper.toDto(saved);
+
+    }
 }

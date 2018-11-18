@@ -19,4 +19,9 @@ public class UserService {
         return userRepo.getByUsernameAndPassword(user);
     }
 
+    public UserDto add(UserDto dto) {
+        UserDto saved =  userRepo.addUser(dto);
+        return saved;
+    }
+
 }
