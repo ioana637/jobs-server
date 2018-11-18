@@ -28,4 +28,8 @@ public class AbilityRepo {
         return mapper.toDtos(saved);
     }
 
+    public List<AbilityDto> findAll() {
+        List<Ability> abilities = repo.findAll();
+        return mapper.toDtos(abilities);
+    }
 }
