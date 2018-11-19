@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Level {
-    ELEMENTAR("elementar"), INDEPENDENT("independet"), EXPERIMENTAT("experimentat");
+    ELEMENTAR("elementar"), INDEPENDENT("independent"), EXPERIMENTAT("experimentat");
 
     private String levelName;
 
