@@ -18,6 +18,9 @@ public class Job  {
     @Column(name = "ID_JOB")
     private Integer id;
 
+    @Column(name = "TITLE")
+    private String title;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "JOB")
     private List<Request> requests;
@@ -39,8 +42,8 @@ public class Job  {
     @Column(name = "PEOPLE_REQUIRED")
     private Integer peopleRequired;
 
-    @Column(name = "AVAILABLE")
-    private Boolean available;
+    @Column(name = "STATUS")
+    private JobStatus status;
 
     @Column(name = "START_TIME")
     @Convert(converter = LocalTimeConverter.class)
