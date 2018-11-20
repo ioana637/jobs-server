@@ -17,6 +17,8 @@ public class JobDto {
 
     private String id;
 
+    private String title;
+
     private String idClient;
 
     private String periodStart;
@@ -27,8 +29,6 @@ public class JobDto {
 
     private String peopleRequired;
 
-    private Boolean available;
-
     private String startTime;
 
     private String endTime;
@@ -36,6 +36,8 @@ public class JobDto {
     private String hoursPerDay;
 
     private String hoursPerWeek;
+
+    private String status;
 
     private List<AbilityDto> abilities;
 
