@@ -17,7 +17,7 @@ public class ReviewDto {
 
     private String stars;
 
-    private UserDto user;
+    private int user;
 
     private String date;
 

@@ -10,9 +10,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
 
-    @Mapping(target = "idUser", source = "user.id")
+   // @Mapping(target = "idUser", source = "user.id")
     Review toEntity(ReviewDto reviewDto);
-    @Mapping(target = "user.id", source = "idUser")
+    //@Mapping(target = "user.id", source = "idUser")
     ReviewDto toDto(Review entity);
 
     List<Review> toEntities(List<ReviewDto> dtos);
