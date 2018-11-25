@@ -20,12 +20,15 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @DeleteMapping("/{reviewId}")
-       public ResponseEntity<ReviewDto> delete(@PathVariable Integer reviewId) {
-        if(reviewService.delete(reviewId)){
-            log.info("Deleted review with id "+ reviewId);
-            return new ResponseEntity<>(HttpStatus.OK);
+       public ResponseEntity<Integer> delete(@PathVariable Integer reviewId) {
+        Integer count = reviewService.delete(reviewId);
+        if (count == 0) {
+            log.info("Could not delete review with id " + reviewId);
+            return new  ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         }
-        return new  ResponseEntity<>(HttpStatus.NOT_FOUND);
+        log.info("Deleted review with id "+ reviewId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping

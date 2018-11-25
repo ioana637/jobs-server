@@ -35,20 +35,14 @@ public class ReviewRepo {
         return reviewMapper.toDto(saved);
     }
 
-    public boolean deleteReview(int reviewId){
-
-        try{
-            Review review =jpaReviewRepoR.getOne(reviewId);
-            if(review.getId() == null)
-                return false;
-            jpaReviewRepoR.delete(review);
-        }
-        catch (javax.persistence.EntityNotFoundException ex){
-            return false;
-        }
-            return true;
+    public Integer deleteReview(Integer reviewId){
+        return jpaReviewRepoR.removeById(reviewId);
     }
 
+    public List<ReviewDto> findForUser(Integer userId) {
+        List<Review> reviews = jpaReviewRepoR.findAllByIdUser(userId);
+        return reviewMapper.toDtos(reviews);
+    }
 
     public List<ReviewDto> findAll(){
         List<Review> reviews = jpaReviewRepoR.findAll();

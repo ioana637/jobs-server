@@ -5,6 +5,7 @@ import com.ubb.jobs.repo.impl.ReviewRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,8 @@ public class ReviewService {
        return reviewDto;
     }
 
-    public boolean delete(Integer reviewId){
+    @Transactional
+    public Integer delete(Integer reviewId){
         return reviewRepo.deleteReview(reviewId);
     }
 
@@ -34,8 +36,6 @@ public class ReviewService {
     public List<ReviewDto> getReviewsOfUser(Integer userId){
 
         List<ReviewDto> dtos = reviewRepo.findAll();
-        dtos =  dtos.stream().filter(review -> review.getUser()==userId)
-        .collect(Collectors.toList());
         return dtos;
     }
 
