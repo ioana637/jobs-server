@@ -6,4 +6,6 @@ public class EndPoint {
     public static final String RECOMMENDATION = "/recommendation";
     public static final String ABILITY = "/ability";
     public static final String ABILITY_LEVELS = "/levels";
+    public static final String REVIEW = "/review";
+
 }
