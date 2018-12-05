@@ -31,7 +31,7 @@ public class RequestController {
     }
 
     @GetMapping("/client/{id}")
-    public ResponseEntity<RequestDto> getByClient(@PathVariable Integer id) {
+    public ResponseEntity<List<RequestDto>> getByClient(@PathVariable Integer id) {
         List<RequestDto> requests = service.getByClient(id);
         if (requests == null) {
             log.info("Client has no requests!");
@@ -42,7 +42,7 @@ public class RequestController {
     }
 
     @GetMapping("/provider/{id}")
-    public ResponseEntity<RequestDto> getByProvider(@PathVariable Integer id) {
+    public ResponseEntity<List<RequestDto>> getByProvider(@PathVariable Integer id) {
         List<RequestDto> requests = service.getByProvider(id);
         if (requests == null) {
             log.info("Provider has no requests!");
