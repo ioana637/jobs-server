@@ -19,8 +19,8 @@ public class RecommendationController {
     private RecommendationService service;
 
     @PostMapping
-    public ResponseEntity<RecommendationDto> save(@RequestBody RecommendationDto user) {
-        RecommendationDto saved = service.add(user);
+    public ResponseEntity<RecommendationDto> save(@RequestBody RecommendationDto recommendation) {
+        RecommendationDto saved = service.add(recommendation);
         if (saved == null) {
             log.info("Unable to send this recommendation!");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

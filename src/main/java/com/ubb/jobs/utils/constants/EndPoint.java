@@ -7,5 +7,6 @@ public class EndPoint {
     public static final String ABILITY = "/ability";
     public static final String ABILITY_LEVELS = "/levels";
     public static final String REVIEW = "/review";
+    public static final String REQUEST = "/request";
 
 }
