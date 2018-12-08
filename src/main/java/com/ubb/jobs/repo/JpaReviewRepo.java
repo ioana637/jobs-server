@@ -11,4 +11,5 @@ public interface JpaReviewRepo extends JpaRepository<Review, Integer> {
 
     Integer removeById(Integer reviewId);
 
+    List<Review> findAllByIdUserFor(Integer idUserFor);
 }
