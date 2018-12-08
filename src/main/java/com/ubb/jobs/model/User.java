@@ -105,6 +105,10 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ID_USER")
-    private List<Review> reviews;
+    private List<Review> reviewsMade;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ID_USER_FOR")
+    private List<Review> reviewsReceived;
 
 }

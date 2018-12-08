@@ -21,6 +21,9 @@ public class Review {
     @Column(name = "ID_USER")
     private Integer idUser;
 
+    @Column(name = "ID_USER_FOR")
+    private Integer idUserFor;
+
     @Column(name = "DESCRIPTION")
     private String description;
 
