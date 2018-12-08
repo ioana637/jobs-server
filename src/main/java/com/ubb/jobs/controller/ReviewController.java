@@ -53,4 +53,14 @@ public class ReviewController {
         return new ResponseEntity<>(reviewDtos, HttpStatus.OK);
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<ReviewDto>> getByUserId(@PathVariable Integer userId){
+        List<ReviewDto> reviewDtos = reviewService.getReviewsOfUser(userId);
+        if(reviewDtos.isEmpty()) {
+            log.info("No entries");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(reviewDtos, HttpStatus.OK);
+    }
+
 }
