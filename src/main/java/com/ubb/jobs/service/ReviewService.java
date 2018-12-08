@@ -35,7 +35,7 @@ public class ReviewService {
 
     public List<ReviewDto> getReviewsOfUser(Integer userId){
 
-        List<ReviewDto> dtos = reviewRepo.findAll();
+        List<ReviewDto> dtos = reviewRepo.findForUser(userId);
         return dtos;
     }
 
