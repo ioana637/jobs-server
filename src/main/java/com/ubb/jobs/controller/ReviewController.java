@@ -63,4 +63,20 @@ public class ReviewController {
         return new ResponseEntity<>(reviewDtos, HttpStatus.OK);
     }
 
+    @GetMapping("/forUser/{forUserId}")
+    public ResponseEntity<List<ReviewDto>> getReviewsByUserId(@PathVariable Integer forUserId){
+        List<ReviewDto> reviewDtos = reviewService.getReviewsForUser(forUserId);
+        if(reviewDtos.isEmpty()) {
+            log.info("No entries");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(reviewDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/forUserMean/{forUserId}")
+    public ResponseEntity<Double> getMeanByUserId(@PathVariable Integer forUserId){
+       Double mean= reviewService.getMeanOfStarsforUser(forUserId);
+       return  new ResponseEntity<>(mean, HttpStatus.OK);
+    }
+
 }

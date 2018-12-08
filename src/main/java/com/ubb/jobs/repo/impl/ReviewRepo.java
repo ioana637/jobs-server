@@ -48,4 +48,9 @@ public class ReviewRepo {
         List<Review> reviews = jpaReviewRepoR.findAll();
         return reviewMapper.toDtos(reviews);
     }
+
+    public List<ReviewDto> findReviewsForUser(Integer idUserFor){
+        List<Review> reviews = jpaReviewRepoR.findAllByIdUserFor(idUserFor);
+        return reviewMapper.toDtos(reviews);
+    }
 }

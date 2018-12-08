@@ -39,4 +39,17 @@ public class ReviewService {
         return dtos;
     }
 
+    public List<ReviewDto> getReviewsForUser(Integer idUserFor){
+        List<ReviewDto> dtos = reviewRepo.findReviewsForUser(idUserFor);
+        return dtos;
+    }
+
+    public double getMeanOfStarsforUser(Integer idUserFor){
+        List<ReviewDto> dtos = reviewRepo.findReviewsForUser(idUserFor);
+        double mean=0;
+        for(ReviewDto dto :dtos)
+            mean+=Double.valueOf(dto.getStars());
+        return mean/dtos.size();
+    }
+
 }
