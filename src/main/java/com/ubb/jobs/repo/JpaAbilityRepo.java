@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JpaAbilityRepo extends JpaRepository<Ability, Integer> {
+    Ability getAbilityById(Integer id);
 }

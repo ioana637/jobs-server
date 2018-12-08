@@ -18,6 +18,10 @@ public class JobAbilityRepo {
     @Autowired
     private JobAbilityMapper mapper;
 
+    public JobAbilityDto getOneByAbilityAndJob(Integer abilityId, Integer jobId) {
+        return mapper.toDto(repo.getJobAbilityByAbility_IdAndJob_Id(abilityId, jobId));
+    }
+
     public List<JobAbilityDto> saveAll(List<JobAbilityDto> jobAbilityDtos) {
         List<JobAbility> saved = repo.saveAll(mapper.toEntities(jobAbilityDtos));
         return mapper.toDtos(saved);
