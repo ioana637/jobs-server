@@ -18,13 +18,13 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @Slf4j
-@RequestMapping(EndPoint.LOGIN)
+@RequestMapping()
 public class LoginController {
 
     @Autowired
     private UserService service;
 
-    @GetMapping
+    @GetMapping(EndPoint.LOGIN)
     public ResponseEntity<UserDto> login() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String password = SecurityContextHolder.getContext().getAuthentication().getCredentials().toString();
@@ -34,7 +34,7 @@ public class LoginController {
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping(EndPoint.REGISTER)
     public ResponseEntity<UserDto> save(@RequestBody UserDto user) {
         UserDto saved = service.add(user);
         if (saved == null) {

@@ -38,4 +38,9 @@ public class JobRepo {
         Page<Job> jobs = jobRepo.findAllByIdClient(clientId, PageRequest.of(pageNumber, pageSize));
         return jobMapper.toDtos(jobs.getContent());
     }
+
+    public JobDto getOne(Integer id) {
+        Job job = jobRepo.getOne(id);
+        return jobMapper.toDto(job);
+    }
 }

@@ -20,6 +20,8 @@ public class RecommendationDto {
 
     private UserDto recommendedProvider;
 
+    private String description;
+
     private String date;
 
 }
