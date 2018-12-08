@@ -4,6 +4,8 @@ package com.ubb.jobs.service;
 import com.ubb.jobs.dto.AbilityDto;
 import com.ubb.jobs.dto.JobAbilityDto;
 import com.ubb.jobs.dto.JobDto;
+import com.ubb.jobs.repo.JpaJobRepo;
+import com.ubb.jobs.repo.JpaUserRepo;
 import com.ubb.jobs.repo.impl.AbilityRepo;
 import com.ubb.jobs.repo.impl.JobAbilityRepo;
 import com.ubb.jobs.repo.impl.JobRepo;
@@ -63,4 +65,12 @@ public class JobService {
         return saved;
     }
 
+    public JobDto getJobById(Integer id) {
+        JobDto job = jobRepo.findJobById(id);
+        job.getAbilities().forEach(ability -> {
+            String level =  jobAbilityRepo.getOneByAbilityAndJob(Integer.valueOf(ability.getId()), Integer.valueOf(job.getId())).getLevel().toLowerCase();
+            ability.setLevel(level);
+        });
+        return job;
+    }
 }

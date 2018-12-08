@@ -19,7 +19,7 @@ public class AbilityRepo {
     private JpaAbilityRepo repo;
 
     public AbilityDto getAbilityById(Integer id) {
-        Ability ability =  repo.getOne(id);
+        Ability ability = repo.getAbilityById(id);
         return mapper.toDtos(ability);
     }
 

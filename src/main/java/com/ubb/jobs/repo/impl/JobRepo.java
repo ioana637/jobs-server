@@ -22,6 +22,10 @@ public class JobRepo {
     @Autowired
     private JobMapper jobMapper;
 
+
+    @Autowired
+    private JpaJobRepo jpaJobRepo;
+
     public List<JobDto> findAll() {
         List<Job> jobs = jobRepo.findAll();
 
@@ -42,5 +46,9 @@ public class JobRepo {
     public JobDto getOne(Integer id) {
         Job job = jobRepo.getOne(id);
         return jobMapper.toDto(job);
+    }
+
+    public JobDto findJobById(Integer id) {
+        return jobMapper.toDto(jpaJobRepo.findJobById(id));
     }
 }

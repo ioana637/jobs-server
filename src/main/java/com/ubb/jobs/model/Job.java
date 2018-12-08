@@ -5,6 +5,7 @@ import com.ubb.jobs.utils.mapper.LocalTimeConverter;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -30,7 +31,7 @@ public class Job  {
 
     @Column(name = "PERIOD_START")
     @Convert(converter = LocalDateConverter.class)
-    private LocalDate periodStart;
+    private LocalDate periodStart = LocalDate.now();
 
     @Column(name = "PERIOD_END")
     @Convert(converter = LocalDateConverter.class)

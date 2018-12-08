@@ -21,6 +21,18 @@ public class JobController {
     @Autowired
     private JobService jobService;
 
+    @GetMapping("/id={jobId}")
+    public ResponseEntity<JobDto> getJobById(@PathVariable("jobId") Integer jobId) {
+
+        JobDto job = jobService.getJobById(jobId);
+        if (job == null) {
+            log.info("Unable to find any job with id: " + jobId);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Returning job with id: " + jobId);
+        return new ResponseEntity<>(job, HttpStatus.OK);
+    }
+
     @GetMapping("/user={userId}&limit={pageSize}&start={pageNumber}")
     public ResponseEntity<List<JobDto>> getJobsPaginated(@PathVariable("userId") Integer userId, @PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber) {
         List<JobDto> jobs = jobService.findForClientId(userId, pageNumber, pageSize);
