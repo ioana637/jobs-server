@@ -19,7 +19,7 @@ public class ReviewDto {
 
     private String idUser;
 
-    private UserDto userFor;
+    private String idUserFor;
 
     private String date;
 

@@ -1,15 +1,12 @@
 package com.ubb.jobs.service;
 import com.ubb.jobs.dto.ReviewDto;
 
-import com.ubb.jobs.dto.UserDto;
 import com.ubb.jobs.repo.impl.ReviewRepo;
-import com.ubb.jobs.repo.impl.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Component
@@ -17,8 +14,6 @@ public class ReviewService {
     @Autowired
     ReviewRepo reviewRepo;
 
-    @Autowired
-    UserRepo userRepo;
 
     public List<ReviewDto> getReviewsOrdered(){
         List<ReviewDto> dtos = reviewRepo.getOrderedReviews();
@@ -41,11 +36,7 @@ public class ReviewService {
     public List<ReviewDto> getReviewsOfUser(Integer userId){
 
         List<ReviewDto> dtos = reviewRepo.findForUser(userId);
-        return dtos.stream().map(review-> {
-            UserDto user = userRepo.getOne(Integer.valueOf(review.getUserFor().getId()));
-            review.setUserFor(user);
-            return review;
-        }).collect(Collectors.toList());
+        return dtos;
     }
 
 }
