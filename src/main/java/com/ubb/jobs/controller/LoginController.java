@@ -45,4 +45,14 @@ public class LoginController {
         return new ResponseEntity<>(saved, HttpStatus.OK);
     }
 
+    @GetMapping("/user={userId}&limit={pageSize}&start={pageNumber}")
+    public ResponseEntity<List<UserDto>> getProviderPaginated(@PathVariable("userId") Integer userId, @PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber) {
+        List<UserDto> users = service.findForClientId(userId, pageNumber, pageSize);
+        if (users == null) {
+            log.info("Unable to find any providers for the given user");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Returning " + users.size() + " from page " + pageNumber);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 }

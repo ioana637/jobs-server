@@ -6,6 +6,8 @@ import com.ubb.jobs.repo.impl.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class UserService {
 
@@ -22,6 +24,11 @@ public class UserService {
     public UserDto add(UserDto dto) {
         UserDto saved =  userRepo.addUser(dto);
         return saved;
+    }
+
+    public List<UserDto> findForClientId(Integer id, int pageNumber, int pageSize) {
+        List<UserDto> dtos = userRepo.getForClientIdPaginated(id, pageNumber, pageSize);
+        return dtos;
     }
 
 }

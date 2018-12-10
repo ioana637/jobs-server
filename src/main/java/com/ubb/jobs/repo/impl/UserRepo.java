@@ -5,7 +5,11 @@ import com.ubb.jobs.model.User;
 import com.ubb.jobs.repo.JpaUserRepo;
 import com.ubb.jobs.utils.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class UserRepo {
@@ -32,5 +36,10 @@ public class UserRepo {
         User saved = jpaUserRepo.save(userMapper.toEntity(user));
         return userMapper.toDto(saved);
 
+    }
+
+    public List<UserDto> getForClientIdPaginated(Integer clientId,int pageNumber, int pageSize) {
+        Page<User> users = jpaUserRepo.findAllByIdClient(clientId, PageRequest.of(pageNumber, pageSize));
+        return userMapper.toDtos(users.getContent());
     }
 }
