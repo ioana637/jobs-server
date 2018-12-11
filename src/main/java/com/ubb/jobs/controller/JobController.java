@@ -54,4 +54,15 @@ public class JobController {
         log.info("Saved" + saved);
         return new ResponseEntity<>(saved, HttpStatus.OK);
     }
+
+    @PostMapping
+    public ResponseEntity<JobDto> editJob(@RequestBody Integer id,@RequestBody JobDto newJob) {
+        JobDto job = jobService.editJob(id,newJob);
+        if (job == null) {
+            log.info("Unable to edit the job");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Job edited " + job);
+        return new ResponseEntity<>(job, HttpStatus.OK);
+    }
 }

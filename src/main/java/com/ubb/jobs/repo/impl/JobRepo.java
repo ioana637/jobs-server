@@ -51,4 +51,20 @@ public class JobRepo {
     public JobDto findJobById(Integer id) {
         return jobMapper.toDto(jpaJobRepo.findJobById(id));
     }
+
+    public JobDto editJob(Integer id, JobDto newJob){
+        Job job = jobRepo.getOne(id);
+        job.setTitle(newJob.getTitle());
+        job.setPeriodStart(newJob.getPeriodStart());
+        job.setPeriodEnd(newJob.getPeriodEnd());
+        job.setDescription(newJob.getDescription());
+        job.setPeopleRequired(newJob.getPeopleRequired());
+        job.setStatus(newJob.getStatus());
+        job.setStartTime(newJob.getStartTime());
+        job.setEndTime(newJob.getEndTime());
+        job.setHoursPerDay(newJob.getHoursPerDay());
+        job.setHoursPerWeek(newJob.getHoursPerWeek());
+        job.setJobAbilities(newJob.getJobAbilities());
+        return jobMapper.toDto(job);
+    }
 }

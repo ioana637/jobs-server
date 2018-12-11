@@ -1,5 +1,6 @@
 package com.ubb.jobs.repo;
 
+import com.ubb.jobs.dto.JobDto;
 import com.ubb.jobs.model.Job;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
