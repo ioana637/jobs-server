@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class UserService {
@@ -29,8 +30,17 @@ public class UserService {
 
     public List<UserDto> findProvidersPaginated(String role, int pageNumber, int pageSize) {
         List<UserDto> dtos = userRepo.findProvidersPaginated(Role.valueOf(role), pageNumber, pageSize);
-        // TODO remove unnecessary attributes such as password, birth date, facebook, twitter, address
-        // TODO you can to this by using maps, you have an example in RequestService, createDtos method
+        dtos.stream().map(userDto -> {
+            userDto.setPassword(null);
+            userDto.setPostalCode(null);
+            userDto.setAddress(null);
+            userDto.setBirthDate(null);
+            userDto.setSubscribed(null);
+            userDto.setFacebook(null);
+            userDto.setInstagram(null);
+            userDto.setTwitter(null);
+            return userDto;
+        }).collect(Collectors.toList());
         return dtos;
     }
 
