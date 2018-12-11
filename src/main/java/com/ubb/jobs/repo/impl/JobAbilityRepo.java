@@ -27,4 +27,7 @@ public class JobAbilityRepo {
         return mapper.toDtos(saved);
     }
 
+    public void removeByJobId(Integer integer) {
+        repo.removeAllByJob_Id(integer);
+    }
 }

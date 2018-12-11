@@ -1,5 +1,6 @@
 package com.ubb.jobs.repo;
 
+import com.ubb.jobs.model.Role;
 import com.ubb.jobs.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,5 +12,5 @@ public interface JpaUserRepo extends JpaRepository<User, Integer> {
 
     // example of custom method on jpa, the query is made by the spring data, you don't need to worry about it for most cases
     User findUserByUsernameAndPassword(String username, String password);
-    Page<User> findAllByIdClient(Integer id, Pageable pageable);
+    Page<User> findAllByRoleEquals(Role role, Pageable pageable);
 }

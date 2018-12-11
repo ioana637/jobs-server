@@ -24,11 +24,11 @@ public class Ability  {
     @Column(name = "DISPLAY")
     private String display;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "ability")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "ability")
     private List<UserAbilities> userAbilities;
 
     //
-    @OneToMany(mappedBy = "ability", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "ability", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<JobAbility> jobs;
 //    @ElementCollection
 //    @CollectionTable(name = "JobAbility", joinColumns = @JoinColumn(name = "CODE_ABILITY"))

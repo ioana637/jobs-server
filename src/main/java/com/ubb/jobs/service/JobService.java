@@ -14,6 +14,7 @@ import com.ubb.jobs.repo.impl.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,11 @@ public class JobService {
         return dtos;
     }
 
+    @Transactional
     public JobDto add(JobDto dto) {
+        if (dto.getId() != null) {
+            jobAbilityRepo.removeByJobId(Integer.valueOf(dto.getId()));
+        }
         List<AbilityDto> abilityDtos = abilityRepo.saveAll(dto.getAbilities());
         for (int i = 0; i < abilityDtos.size(); i++)
             abilityDtos.get(i).setLevel(dto.getAbilities().get(i).getLevel());
@@ -75,8 +80,8 @@ public class JobService {
         return job;
     }
 
-    public JobDto editJob(Integer id, JobDto newJob){
-        JobDto job=jobRepo.editJob(id,newJob);
-        return job;
-    }
+//    public JobDto editJob(Integer id, JobDto newJob){
+//        JobDto job=jobRepo.editJob(id,newJob);
+//        return job;
+//    }
 }

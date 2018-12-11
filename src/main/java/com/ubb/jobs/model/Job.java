@@ -22,7 +22,7 @@ public class Job  {
     @Column(name = "TITLE")
     private String title;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "JOB")
     private List<Request> requests;
 
@@ -68,7 +68,7 @@ public class Job  {
 //    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 //    @JoinTable(name ="JobAbility", joinColumns = @JoinColumn(name = "CODE_JOB"),
 //    inverseJoinColumns = @JoinColumn(name = "CODE_ABILITY"))
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "job", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "job", fetch = FetchType.LAZY)
 //    @ElementCollection
 //    @CollectionTable(name = "JobAbility", joinColumns = @JoinColumn(name = "CODE_JOB"))
 //    @MapKeyJoinColumn(name = "CODE_ABILITY")

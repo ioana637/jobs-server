@@ -1,6 +1,7 @@
 package com.ubb.jobs.repo.impl;
 
 import com.ubb.jobs.dto.UserDto;
+import com.ubb.jobs.model.Role;
 import com.ubb.jobs.model.User;
 import com.ubb.jobs.repo.JpaUserRepo;
 import com.ubb.jobs.utils.mapper.UserMapper;
@@ -38,8 +39,8 @@ public class UserRepo {
 
     }
 
-    public List<UserDto> getForClientIdPaginated(Integer clientId,int pageNumber, int pageSize) {
-        Page<User> users = jpaUserRepo.findAllByIdClient(clientId, PageRequest.of(pageNumber, pageSize));
+    public List<UserDto> findProvidersPaginated(Role role, int pageNumber, int pageSize) {
+        Page<User> users = jpaUserRepo.findAllByRoleEquals(role, PageRequest.of(pageNumber, pageSize));
         return userMapper.toDtos(users.getContent());
     }
 }

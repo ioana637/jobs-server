@@ -1,15 +1,12 @@
 package com.ubb.jobs.controller;
 
 import com.ubb.jobs.dto.UserDto;
-import com.ubb.jobs.model.User;
 import com.ubb.jobs.service.UserService;
 import com.ubb.jobs.utils.constants.EndPoint;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,9 +42,9 @@ public class LoginController {
         return new ResponseEntity<>(saved, HttpStatus.OK);
     }
 
-    @GetMapping("/user={userId}&limit={pageSize}&start={pageNumber}")
-    public ResponseEntity<List<UserDto>> getProviderPaginated(@PathVariable("userId") Integer userId, @PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber) {
-        List<UserDto> users = service.findForClientId(userId, pageNumber, pageSize);
+    @GetMapping("/role={role}&limit={pageSize}&start={pageNumber}")
+    public ResponseEntity<List<UserDto>> getProviderPaginated(@PathVariable("role") String role, @PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber) {
+        List<UserDto> users = service.findProvidersPaginated(role, pageNumber, pageSize);
         if (users == null) {
             log.info("Unable to find any providers for the given user");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
