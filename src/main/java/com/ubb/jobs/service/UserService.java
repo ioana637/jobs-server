@@ -16,6 +16,10 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private ReviewService reviewService;
+
+
     public UserDto login(String username, String password) {
         User user = new User();
         user.setUsername(username);
@@ -28,9 +32,11 @@ public class UserService {
         return saved;
     }
 
-    public List<UserDto> findProvidersPaginated(String role, int pageNumber, int pageSize) {
-        List<UserDto> dtos = userRepo.findProvidersPaginated(Role.valueOf(role), pageNumber, pageSize);
+    public List<UserDto> findProvidersPaginated( int pageNumber, int pageSize) {
+        List<UserDto> dtos = userRepo.findProvidersPaginated(Role.PROVIDER, pageNumber, pageSize);
         dtos.stream().map(userDto -> {
+            double stars = reviewService.getMeanOfStarsforUser(Integer.valueOf(userDto.getId()));
+            userDto.setStarAvg(String.valueOf(stars));
             userDto.setPassword(null);
             userDto.setPostalCode(null);
             userDto.setAddress(null);
