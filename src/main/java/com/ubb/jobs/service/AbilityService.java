@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class AbilityService {
@@ -43,5 +44,17 @@ public class AbilityService {
         userAbilitiesDto =  userAbilityRepo.save(userAbilitiesDto);
         userAbilitiesDto.getUser().setPassword(null);
         return userAbilitiesDto;
+    }
+
+    public List<AbilityDto> getAbilitiesForUser(Integer userId) {
+        List<UserAbilitiesDto> dtos =  userAbilityRepo.findAllByUser(userId);
+        return dtos.stream().map(dto-> {
+            AbilityDto abilityDto = new AbilityDto();
+            abilityDto.setLevel(dto.getLevel());
+            abilityDto.setId(dto.getAbility().getId());
+            abilityDto.setCode(dto.getAbility().getCode());
+            abilityDto.setDisplay(dto.getAbility().getDisplay());
+            return abilityDto;
+        }).collect(Collectors.toList());
     }
 }

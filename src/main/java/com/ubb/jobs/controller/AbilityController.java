@@ -38,9 +38,14 @@ public class AbilityController {
         return new ResponseEntity<>(levels, HttpStatus.OK);
     }
 
-    @GetMapping("/user={user]")
-    public ResponseEntity<List<AbilityDto>> getAbilitiesForUser() {
-        return null;
+    @GetMapping(EndPoint.USER_ABILITY+"/{id}")
+    public ResponseEntity<List<AbilityDto>> getAbilitiesForUser(@PathVariable("id") Integer id ) {
+        List<AbilityDto> abilityDtos = abilityService.getAbilitiesForUser(id);
+        if (abilityDtos == null) {
+            log.info("Unable to get abilities for given user");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(abilityDtos, HttpStatus.OK);
     }
 
     @PostMapping(EndPoint.USER_ABILITY)
