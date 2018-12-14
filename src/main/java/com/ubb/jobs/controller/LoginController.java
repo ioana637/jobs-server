@@ -52,4 +52,15 @@ public class LoginController {
         log.info("Returning " + users.size() + " from page " + pageNumber);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
+    public ResponseEntity<List<UserDto>> getProviders() {
+        List<UserDto> users = service.findProviders();
+        if (users == null) {
+            log.info("Unable to find any providers");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Returning " + users.size());
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
 }

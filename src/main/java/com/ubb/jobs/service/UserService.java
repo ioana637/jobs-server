@@ -50,4 +50,9 @@ public class UserService {
         return dtos;
     }
 
+    public List<UserDto> findProviders(){
+        List<UserDto>dtos=userRepo.findProviders(Role.PROVIDER);
+        return dtos;
+    }
+
 }
