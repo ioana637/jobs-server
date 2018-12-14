@@ -1,8 +1,13 @@
 package com.ubb.jobs.service;
 
 import com.ubb.jobs.dto.AbilityDto;
+import com.ubb.jobs.dto.UserAbilitiesDto;
+import com.ubb.jobs.dto.UserDto;
 import com.ubb.jobs.model.Level;
+import com.ubb.jobs.model.UserAbilities;
 import com.ubb.jobs.repo.impl.AbilityRepo;
+import com.ubb.jobs.repo.impl.UserAbilityRepo;
+import com.ubb.jobs.repo.impl.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +20,12 @@ public class AbilityService {
     @Autowired
     private AbilityRepo abilityRepo;
 
+    @Autowired
+    private UserAbilityRepo userAbilityRepo;
+
+    @Autowired
+    private UserRepo userRepo;
+
     public List<AbilityDto> findAll() {
         List<AbilityDto> dtos = abilityRepo.findAll();
         return dtos;
@@ -22,5 +33,15 @@ public class AbilityService {
 
     public List<Level> findAllAbilitiesLevels() {
         return Arrays.asList(Level.values());
+    }
+
+    public UserAbilitiesDto save(UserAbilitiesDto userAbilitiesDto) {
+        AbilityDto abilityDto = abilityRepo.getAbilityById(Integer.valueOf(userAbilitiesDto.getAbility().getId()));
+        userAbilitiesDto.setAbility(abilityDto);
+        UserDto userDto = userRepo.getOne(Integer.valueOf(userAbilitiesDto.getUser().getId()));
+        userAbilitiesDto.setUser(userDto);
+        userAbilitiesDto =  userAbilityRepo.save(userAbilitiesDto);
+        userAbilitiesDto.getUser().setPassword(null);
+        return userAbilitiesDto;
     }
 }

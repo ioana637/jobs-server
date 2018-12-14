@@ -10,4 +10,5 @@ public class EndPoint {
     public static final String REQUEST = "/request";
 
     public static final String REGISTER = "/register";
+    public static final String USER_ABILITY = "/user";
 }
