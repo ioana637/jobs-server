@@ -50,4 +50,9 @@ public class UserService {
         return dtos;
     }
 
+    public List<UserDto> findAllClients(){
+        List<UserDto> dtos = userRepo.findClients(Role.CLIENT);
+        return dtos;
+    }
+
 }
