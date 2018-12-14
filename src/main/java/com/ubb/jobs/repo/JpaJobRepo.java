@@ -16,4 +16,5 @@ public interface JpaJobRepo extends JpaRepository<Job, Integer> {
     Page<Job> findAllByIdClient(Integer id, Pageable pageable);
 
 
+
 }

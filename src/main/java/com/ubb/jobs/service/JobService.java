@@ -83,6 +83,8 @@ public class JobService {
         JobDto job = jobRepo.findJobById(id);
         Set<UserDto> users = employees.stream().map(unique -> userRepo.getOne(Integer.valueOf(unique))).collect(Collectors.toSet());
         job.setAbilities(null);
+        job.setProviders(null);
+        jobRepo.save(job);
         job.setProviders(users);
         job = jobRepo.save(job);
         job.setProviders(job.getProviders().stream().map(provider-> {
