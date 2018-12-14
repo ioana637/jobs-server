@@ -40,6 +40,10 @@ public class JobDto {
 
     private String status;
 
+    private String category;
+
+    private String location;
+
     private List<AbilityDto> abilities;
 
     private Set<UserDto> providers;

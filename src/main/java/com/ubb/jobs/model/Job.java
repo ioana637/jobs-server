@@ -69,6 +69,11 @@ public class Job  {
     )
     private Set<User> providers;
 
+    @Column(name = "CATEGORY")
+    Category category;
+
+    @Column(name = "LOCATION")
+    String location;
 
 //    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 //    @JoinTable(name ="JobAbility", joinColumns = @JoinColumn(name = "CODE_JOB"),
