@@ -54,5 +54,14 @@ public class JobController {
         log.info("Saved" + saved);
         return new ResponseEntity<>(saved, HttpStatus.OK);
     }
+    @PostMapping("/{id}/assign")
+    public ResponseEntity<JobDto> addWorkers(@PathVariable Integer id, @RequestBody List<String> users) {
+        JobDto updated = jobService.assignEmployees(id, users);
+        if (updated == null) {
+            log.info("Something went wrong while adding employees");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
 
 }

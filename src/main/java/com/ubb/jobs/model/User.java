@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -97,10 +98,19 @@ public class User {
     @JoinColumn(name = "ID_CLIENT")
     private List<Job> jobs;
 
-    @ElementCollection
-    @CollectionTable(name = "ProvidersJobs", joinColumns = @JoinColumn(name = "ID_JOB"))
-    @Column(name = "ID")
-    private List<Integer> requestedJobs;
+//    @ManyToMany(cascade = {CascadeType.ALL})
+//    @JoinTable(
+//            name = "Providers_Jobs",
+//            joinColumns = {@JoinColumn(name= "ID_USER")},
+//            inverseJoinColumns = {@JoinColumn(name= "ID_JOB")}
+//    )
+//    private Set<Job> jobsWorking;
+
+
+//    @ElementCollection
+//    @CollectionTable(name = "ProvidersJobs", joinColumns = @JoinColumn(name = "ID_JOB"))
+////    @Column(name = "ID")
+//    private List<Integer> requestedJobs;
 
 
     @OneToMany(cascade = CascadeType.ALL)
