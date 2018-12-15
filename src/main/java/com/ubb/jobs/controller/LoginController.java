@@ -52,4 +52,15 @@ public class LoginController {
         log.info("Returning " + users.size() + " from page " + pageNumber);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
+    @GetMapping("clients")
+    public ResponseEntity<List<UserDto>> getClients() {
+        List<UserDto> users = service.findAllClients();
+        if (users == null) {
+            log.info("Unable to find any clients for the given user");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Returning " + users.size());
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 }

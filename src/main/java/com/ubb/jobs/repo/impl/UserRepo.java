@@ -43,4 +43,9 @@ public class UserRepo {
         Page<User> users = jpaUserRepo.findAllByRoleEquals(role, PageRequest.of(pageNumber, pageSize));
         return userMapper.toDtos(users.getContent());
     }
+
+    public List<UserDto> findClients(Role role) {
+        List<User> users = jpaUserRepo.findAllByRole(role);
+        return userMapper.toDtos(users);
+    }
 }
