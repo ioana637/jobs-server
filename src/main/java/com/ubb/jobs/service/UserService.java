@@ -49,7 +49,11 @@ public class UserService {
 
     public List<UserDto> findProvidersPaginated( int pageNumber, int pageSize) {
         List<UserDto> dtos = userRepo.findProvidersPaginated(Role.PROVIDER, pageNumber, pageSize);
-        dtos.stream().map(userDto -> {
+        return addAbilityToUsers(dtos);
+    }
+
+    private List<UserDto> addAbilityToUsers(List<UserDto> dtos) {
+        return dtos.stream().map(userDto -> {
             List<UserAbilitiesDto> userAbilitiesDtos = userAbilityRepo.findAllByUser(Integer.valueOf(userDto.getId()));
             List<AbilityDto> abilities = userAbilitiesDtos.stream().map(UserAbilitiesDto::getAbility).collect(Collectors.toList());
             Double stars = calculateMeanStars(Integer.valueOf(userDto.getId()));
@@ -65,33 +69,17 @@ public class UserService {
             userDto.setAbilities(abilities);
             return userDto;
         }).collect(Collectors.toList());
-        return dtos;
     }
 
     public List<UserDto> findAllClients(){
         List<UserDto> dtos = userRepo.findClients(Role.CLIENT);
-        dtos.stream().map(userDto -> {
-            List<UserAbilitiesDto> userAbilitiesDtos = userAbilityRepo.findAllByUser(Integer.valueOf(userDto.getId()));
-            List<AbilityDto> abilities = userAbilitiesDtos.stream().map(UserAbilitiesDto::getAbility).collect(Collectors.toList());
-            Double stars = calculateMeanStars(Integer.valueOf(userDto.getId()));
-            userDto.setStarAvg(stars == null ? null : String.valueOf(stars));
-            userDto.setPassword(null);
-            userDto.setPostalCode(null);
-            userDto.setAddress(null);
-            userDto.setBirthDate(null);
-            userDto.setSubscribed(null);
-            userDto.setFacebook(null);
-            userDto.setInstagram(null);
-            userDto.setTwitter(null);
-            userDto.setAbilities(abilities);
-            return userDto;
-        }).collect(Collectors.toList());
-        return dtos;
+        return addAbilityToUsers(dtos);
+
     }
 
     public List<UserDto> findProviders(){
         List<UserDto>dtos=userRepo.findProviders(Role.PROVIDER);
-        return dtos;
+        return addAbilityToUsers(dtos);
     }
 
 }

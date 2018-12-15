@@ -46,9 +46,10 @@ public class UserRepo {
 
 
     public List<UserDto> findProviders(Role role) {
-
+        List<User> users = jpaUserRepo.findAllByRole(role);
+        return userMapper.toDtos(users);
+    }
     public List<UserDto> findClients(Role role) {
-
         List<User> users = jpaUserRepo.findAllByRole(role);
         return userMapper.toDtos(users);
     }
