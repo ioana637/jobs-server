@@ -52,6 +52,22 @@ public class UserService {
 
     public List<UserDto> findAllClients(){
         List<UserDto> dtos = userRepo.findClients(Role.CLIENT);
+        dtos.stream().map(userDto -> {
+            List<UserAbilitiesDto> userAbilitiesDtos = userAbilityRepo.findAllByUser(Integer.valueOf(userDto.getId()));
+            List<AbilityDto> abilities = userAbilitiesDtos.stream().map(UserAbilitiesDto::getAbility).collect(Collectors.toList());
+            Double stars = calculateMeanStars(Integer.valueOf(userDto.getId()));
+            userDto.setStarAvg(stars == null ? null : String.valueOf(stars));
+            userDto.setPassword(null);
+            userDto.setPostalCode(null);
+            userDto.setAddress(null);
+            userDto.setBirthDate(null);
+            userDto.setSubscribed(null);
+            userDto.setFacebook(null);
+            userDto.setInstagram(null);
+            userDto.setTwitter(null);
+            userDto.setAbilities(abilities);
+            return userDto;
+        }).collect(Collectors.toList());
         return dtos;
     }
 
