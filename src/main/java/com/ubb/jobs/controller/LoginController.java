@@ -58,6 +58,12 @@ public class LoginController {
         List<UserDto> users = service.findProviders();
         if (users == null) {
             log.info("Unable to find any providers");
+    @GetMapping("clients")
+    public ResponseEntity<List<UserDto>> getClients() {
+        List<UserDto> users = service.findAllClients();
+        if (users == null) {
+            log.info("Unable to find any clients for the given user");
+
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         log.info("Returning " + users.size());

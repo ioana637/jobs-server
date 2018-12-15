@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -39,6 +40,12 @@ public class JobDto {
 
     private String status;
 
+    private String category;
+
+    private String location;
+
     private List<AbilityDto> abilities;
+
+    private Set<UserDto> providers;
 
 }

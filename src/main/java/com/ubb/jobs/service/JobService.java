@@ -4,9 +4,7 @@ package com.ubb.jobs.service;
 import com.ubb.jobs.dto.AbilityDto;
 import com.ubb.jobs.dto.JobAbilityDto;
 import com.ubb.jobs.dto.JobDto;
-import com.ubb.jobs.model.Job;
-import com.ubb.jobs.repo.JpaJobRepo;
-import com.ubb.jobs.repo.JpaUserRepo;
+import com.ubb.jobs.dto.UserDto;
 import com.ubb.jobs.repo.impl.AbilityRepo;
 import com.ubb.jobs.repo.impl.JobAbilityRepo;
 import com.ubb.jobs.repo.impl.JobRepo;
@@ -16,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -59,7 +58,7 @@ public class JobService {
             abilityDtos.get(i).setLevel(dto.getAbilities().get(i).getLevel());
         dto.setAbilities(null);
         dto.setStatus("AVAILABLE");
-        JobDto saved =  jobRepo.addJob(dto);
+        JobDto saved =  jobRepo.save(dto);
         List<JobAbilityDto> jobAbilityDtos = abilityDtos.stream().map(abilityDto -> {
             JobAbilityDto jobAbilityDto = new JobAbilityDto();
             jobAbilityDto.setAbility(abilityDto);
@@ -80,8 +79,18 @@ public class JobService {
         return job;
     }
 
-//    public JobDto editJob(Integer id, JobDto newJob){
-//        JobDto job=jobRepo.editJob(id,newJob);
-//        return job;
-//    }
+    public JobDto assignEmployees(Integer id, List<String> employees) {
+        JobDto job = jobRepo.findJobById(id);
+        Set<UserDto> users = employees.stream().map(unique -> userRepo.getOne(Integer.valueOf(unique))).collect(Collectors.toSet());
+        job.setAbilities(null);
+        job.setProviders(null);
+        jobRepo.save(job);
+        job.setProviders(users);
+        job = jobRepo.save(job);
+        job.setProviders(job.getProviders().stream().map(provider-> {
+            provider.setPassword(null);
+            return provider;
+        }).collect(Collectors.toSet()));
+        return job;
+    }
 }

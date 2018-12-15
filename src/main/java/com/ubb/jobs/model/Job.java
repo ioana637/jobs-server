@@ -9,6 +9,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -60,10 +61,19 @@ public class Job  {
     @Column(name = "HOURS_PER_WEEK")
     private Integer hoursPerWeek;
 
-    @ElementCollection
-    @CollectionTable(name = "ProvidersJobs", joinColumns = @JoinColumn(name = "ID_PROVIDER"))
-    private List<Integer> providers;
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "Providers_Jobs",
+            joinColumns = {@JoinColumn(name= "ID_JOB")},
+            inverseJoinColumns = {@JoinColumn(name= "ID_USER")}
+    )
+    private Set<User> providers;
 
+    @Column(name = "CATEGORY")
+    Category category;
+
+    @Column(name = "LOCATION")
+    String location;
 
 //    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 //    @JoinTable(name ="JobAbility", joinColumns = @JoinColumn(name = "CODE_JOB"),

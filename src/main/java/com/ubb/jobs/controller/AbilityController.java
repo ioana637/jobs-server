@@ -1,17 +1,17 @@
 package com.ubb.jobs.controller;
 
 import com.ubb.jobs.dto.AbilityDto;
+import com.ubb.jobs.dto.UserAbilitiesDto;
+import com.ubb.jobs.model.Ability;
 import com.ubb.jobs.model.Level;
+import com.ubb.jobs.model.UserAbilities;
 import com.ubb.jobs.service.AbilityService;
 import com.ubb.jobs.utils.constants.EndPoint;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,5 +36,25 @@ public class AbilityController {
         List<Level> levels = abilityService.findAllAbilitiesLevels();
         log.info("Returning " + levels.toString());
         return new ResponseEntity<>(levels, HttpStatus.OK);
+    }
+
+    @GetMapping(EndPoint.USER_ABILITY+"/{id}")
+    public ResponseEntity<List<AbilityDto>> getAbilitiesForUser(@PathVariable("id") Integer id ) {
+        List<AbilityDto> abilityDtos = abilityService.getAbilitiesForUser(id);
+        if (abilityDtos == null) {
+            log.info("Unable to get abilities for given user");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(abilityDtos, HttpStatus.OK);
+    }
+
+    @PostMapping(EndPoint.USER_ABILITY)
+    public ResponseEntity<UserAbilitiesDto> addAbility(@RequestBody UserAbilitiesDto userAbilitiesDto) {
+        UserAbilitiesDto saved = abilityService.save(userAbilitiesDto);
+        if (saved == null) {
+            log.info("Unable to add ability to given user");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(saved, HttpStatus.OK);
     }
 }

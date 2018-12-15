@@ -3,12 +3,10 @@ package com.ubb.jobs.repo.impl;
 import com.ubb.jobs.dto.JobDto;
 import com.ubb.jobs.model.Job;
 import com.ubb.jobs.repo.JpaJobRepo;
-import com.ubb.jobs.repo.JpaUserRepo;
 import com.ubb.jobs.utils.mapper.JobMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -32,7 +30,7 @@ public class JobRepo {
         return jobMapper.toDtos(jobs);
     }
 
-    public JobDto addJob(JobDto job) {
+    public JobDto save(JobDto job) {
         Job saved = jobRepo.save(jobMapper.toEntity(job));
         return jobMapper.toDto(saved);
 
@@ -52,19 +50,5 @@ public class JobRepo {
         return jobMapper.toDto(jpaJobRepo.findJobById(id));
     }
 
-//    public JobDto editJob(Integer id, JobDto newJob){
-//        Job job = jobRepo.getOne(id);
-//        job.setTitle(newJob.getTitle());
-//        job.setPeriodStart(newJob.getPeriodStart());
-//        job.setPeriodEnd(newJob.getPeriodEnd());
-//        job.setDescription(newJob.getDescription());
-//        job.setPeopleRequired(newJob.getPeopleRequired());
-//        job.setStatus(newJob.getStatus());
-//        job.setStartTime(newJob.getStartTime());
-//        job.setEndTime(newJob.getEndTime());
-//        job.setHoursPerDay(newJob.getHoursPerDay());
-//        job.setHoursPerWeek(newJob.getHoursPerWeek());
-//        job.setJobAbilities(newJob.getJobAbilities());
-//        return jobMapper.toDto(job);
-//    }
+
 }
