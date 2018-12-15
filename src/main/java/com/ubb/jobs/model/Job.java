@@ -70,7 +70,7 @@ public class Job  {
     private Set<User> providers;
 
     @Column(name = "CATEGORY")
-    Category category;
+    String category;
 
     @Column(name = "LOCATION")
     String location;
