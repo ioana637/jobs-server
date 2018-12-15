@@ -53,6 +53,7 @@ public class LoginController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping("providers")
     public ResponseEntity<List<UserDto>> getProviders() {
         List<UserDto> users = service.findProviders();
         if (users == null) {
