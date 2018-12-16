@@ -55,7 +55,11 @@ public class UserService {
     private List<UserDto> addAbilityToUsers(List<UserDto> dtos) {
         return dtos.stream().map(userDto -> {
             List<UserAbilitiesDto> userAbilitiesDtos = userAbilityRepo.findAllByUser(Integer.valueOf(userDto.getId()));
-            List<AbilityDto> abilities = userAbilitiesDtos.stream().map(UserAbilitiesDto::getAbility).collect(Collectors.toList());
+            List<AbilityDto> abilities = userAbilitiesDtos.stream().map(userAbility-> {
+                AbilityDto abilityDto = userAbility.getAbility();
+                abilityDto.setLevel(userAbility.getLevel());
+                return abilityDto;
+            }).collect(Collectors.toList());
             Double stars = calculateMeanStars(Integer.valueOf(userDto.getId()));
             userDto.setStarAvg(stars == null ? null : String.valueOf(stars));
             userDto.setPassword(null);
