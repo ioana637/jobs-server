@@ -76,6 +76,9 @@ public class JobService {
             String level =  jobAbilityRepo.getOneByAbilityAndJob(Integer.valueOf(ability.getId()), Integer.valueOf(job.getId())).getLevel().toLowerCase();
             ability.setLevel(level);
         });
+        job.getProviders().forEach(provider-> {
+            provider.setPassword(null);
+        });
         return job;
     }
 
