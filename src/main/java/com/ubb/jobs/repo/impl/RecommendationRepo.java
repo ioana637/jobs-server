@@ -7,6 +7,8 @@ import com.ubb.jobs.utils.mapper.RecommendationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class RecommendationRepo {
     @Autowired
@@ -19,5 +21,15 @@ public class RecommendationRepo {
         Recommendation saved = recommendationRepo.save(recommendationMapper.toEntity(recommendation));
         return recommendationMapper.toDto(saved);
 
+    }
+
+    public List<RecommendationDto> findRecommendationReceived(Integer recommendedProvider){
+        List<Recommendation> recommendations = recommendationRepo.findAllByIdRecommendedProvider(recommendedProvider);
+        return recommendationMapper.toDtos(recommendations);
+    }
+
+    public List<RecommendationDto> findRecommendationGiven(Integer recommender){
+        List<Recommendation> recommendations = recommendationRepo.findAllByIdRecommender(recommender);
+        return recommendationMapper.toDtos(recommendations);
     }
 }

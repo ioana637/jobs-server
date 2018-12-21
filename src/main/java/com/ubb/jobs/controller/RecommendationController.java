@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @Slf4j
@@ -27,5 +29,26 @@ public class RecommendationController {
         }
         log.info("Saved" + saved);
         return new ResponseEntity<>(saved, HttpStatus.OK);
+    }
+
+    @GetMapping("/userId={recommenderProvider}")
+    public ResponseEntity<List<RecommendationDto>> getRecommendationReceived(@PathVariable("recommenderProvider") Integer recommenderProvider) {
+        List<RecommendationDto> recommendationDtos = service.getRecommandationReceived(recommenderProvider);
+        if (recommendationDtos == null) {
+            log.info("Unable to find any recommendations for the given user");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Returning " + recommendationDtos.size());
+        return new ResponseEntity<>(recommendationDtos, HttpStatus.OK);
+    }
+    @GetMapping("/userId={recommender}")
+    public ResponseEntity<List<RecommendationDto>> getRecommendationReceived(@PathVariable("recommender") Integer recommender) {
+        List<RecommendationDto> recommendationDtos = service.getRecommandationGiven(recommender);
+        if (recommendationDtos == null) {
+            log.info("Unable to find any recommendations for the given user");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Returning " + recommendationDtos.size());
+        return new ResponseEntity<>(recommendationDtos, HttpStatus.OK);
     }
 }
