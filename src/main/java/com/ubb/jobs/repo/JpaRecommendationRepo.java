@@ -10,8 +10,8 @@ import java.util.List;
 @Repository
 public interface JpaRecommendationRepo extends JpaRepository<Recommendation, Integer> {
 
-    List<Recommendation> findAllByIdRecommendedProvider(Integer recommendedProvider);
-    List<Recommendation> findAllByIdRecommender(Integer recommender);
+    List<Recommendation> findAllByRecommendedProvider(Integer recommendedProvider);
+    List<Recommendation> findAllByRecommender(Integer recommender);
 }
 
 

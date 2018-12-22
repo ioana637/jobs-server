@@ -47,7 +47,7 @@ public class RecommendationService {
             UserDto provider = userRepo.getOne(Integer.valueOf(r.getRecommendedProvider().getId()));
             provider.setPassword(null);
             UserDto recommender1 = userRepo.getOne(Integer.valueOf(r.getRecommender().getId()));
-            recommender.setPassword(null);
+            recommender1.setPassword(null);
             r.setRecommendedProvider(provider);
             r.setRecommender(recommender1);
         }

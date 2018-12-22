@@ -31,7 +31,7 @@ public class RecommendationController {
         return new ResponseEntity<>(saved, HttpStatus.OK);
     }
 
-    @GetMapping("/userId={recommenderProvider}")
+    @GetMapping("/recommended/{recommenderProvider}")
     public ResponseEntity<List<RecommendationDto>> getRecommendationReceived(@PathVariable("recommenderProvider") Integer recommenderProvider) {
         List<RecommendationDto> recommendationDtos = service.getRecommandationReceived(recommenderProvider);
         if (recommendationDtos == null) {
@@ -41,8 +41,8 @@ public class RecommendationController {
         log.info("Returning " + recommendationDtos.size());
         return new ResponseEntity<>(recommendationDtos, HttpStatus.OK);
     }
-    @GetMapping("/userId={recommender}")
-    public ResponseEntity<List<RecommendationDto>> getRecommendationReceived(@PathVariable("recommender") Integer recommender) {
+    @GetMapping("/recommender/{recommender}")
+    public ResponseEntity<List<RecommendationDto>> getRecommendationGiven(@PathVariable("recommender") Integer recommender) {
         List<RecommendationDto> recommendationDtos = service.getRecommandationGiven(recommender);
         if (recommendationDtos == null) {
             log.info("Unable to find any recommendations for the given user");
