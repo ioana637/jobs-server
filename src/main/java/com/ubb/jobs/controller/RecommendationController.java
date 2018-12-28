@@ -31,9 +31,9 @@ public class RecommendationController {
         return new ResponseEntity<>(saved, HttpStatus.OK);
     }
 
-    @GetMapping("/recommended/{recommenderProvider}")
-    public ResponseEntity<List<RecommendationDto>> getRecommendationReceived(@PathVariable("recommenderProvider") Integer recommenderProvider) {
-        List<RecommendationDto> recommendationDtos = service.getRecommandationReceived(recommenderProvider);
+    @GetMapping("/recommended/{userFor}")
+    public ResponseEntity<List<RecommendationDto>> getRecommendationReceived(@PathVariable("userFor") Integer userFor) {
+        List<RecommendationDto> recommendationDtos = service.getRecommandationReceived(userFor);
         if (recommendationDtos == null) {
             log.info("Unable to find any recommendations for the given user");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

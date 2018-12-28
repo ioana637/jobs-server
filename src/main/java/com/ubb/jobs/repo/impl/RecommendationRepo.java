@@ -23,8 +23,8 @@ public class RecommendationRepo {
 
     }
 
-    public List<RecommendationDto> findRecommendationReceived(Integer recommendedProvider){
-        List<Recommendation> recommendations = recommendationRepo.findAllByRecommendedProvider(recommendedProvider);
+    public List<RecommendationDto> findRecommendationReceived(Integer userFor){
+        List<Recommendation> recommendations = recommendationRepo.findAllByUserFor(userFor);
         return recommendationMapper.toDtos(recommendations);
     }
 
