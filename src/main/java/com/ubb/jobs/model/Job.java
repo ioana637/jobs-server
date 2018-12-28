@@ -1,12 +1,14 @@
 package com.ubb.jobs.model;
 
 import com.ubb.jobs.utils.mapper.LocalDateConverter;
+import com.ubb.jobs.utils.mapper.LocalDateTimeConverter;
 import com.ubb.jobs.utils.mapper.LocalTimeConverter;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
@@ -70,7 +72,11 @@ public class Job  {
     private Set<User> providers;
 
     @Column(name = "CATEGORY")
-    String category;
+    private String category;
+
+    @Column(name = "DATE")
+    @Convert(converter = LocalDateTimeConverter.class)
+    private LocalDateTime date;
 
     @Column(name = "LOCATION")
     String location;

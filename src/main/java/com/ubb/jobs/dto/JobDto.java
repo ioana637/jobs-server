@@ -48,4 +48,5 @@ public class JobDto {
 
     private Set<UserDto> providers;
 
+    private String date;
 }

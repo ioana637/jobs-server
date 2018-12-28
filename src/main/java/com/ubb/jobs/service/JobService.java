@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -56,6 +57,8 @@ public class JobService {
         List<AbilityDto> abilityDtos = abilityRepo.saveAll(dto.getAbilities());
         for (int i = 0; i < abilityDtos.size(); i++)
             abilityDtos.get(i).setLevel(dto.getAbilities().get(i).getLevel());
+        LocalDateTime localDateTime = LocalDateTime.now();
+        dto.setDate(localDateTime.toString());
         dto.setAbilities(null);
         dto.setStatus("AVAILABLE");
         JobDto saved =  jobRepo.save(dto);
