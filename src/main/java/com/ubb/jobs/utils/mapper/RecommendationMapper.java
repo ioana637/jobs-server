@@ -4,17 +4,23 @@ import com.ubb.jobs.dto.RecommendationDto;
 import com.ubb.jobs.model.Recommendation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface RecommendationMapper {
-
-    @Mapping(target = "recommender.id", source = "recommender")
-    @Mapping(target = "recommendedProvider.id", source = "recommendedProvider")
+    @Mappings ({
+        @Mapping(target = "recommender.id", source = "recommender"),
+        @Mapping(target = "recommendedProvider.id", source = "recommendedProvider"),
+        @Mapping(target = "userFor.id", source = "userFor")
+    })
     RecommendationDto toDto(Recommendation entity);
-    @Mapping(target = "recommender", source = "recommender.id")
-    @Mapping(target = "recommendedProvider", source = "recommendedProvider.id")
+    @Mappings({
+    @Mapping(target = "recommender", source = "recommender.id"),
+    @Mapping(target = "recommendedProvider", source = "recommendedProvider.id"),
+    @Mapping(target = "userFor", source = "userFor.id")
+    })
     Recommendation toEntity(RecommendationDto dto);
 
 

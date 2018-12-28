@@ -83,6 +83,10 @@ public class User {
     private List<Recommendation> recommendationsProvider;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "USER_FOR")
+    private List<Recommendation> userFor;
+
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_FROM")
     private List<Request> requestsMade;
 

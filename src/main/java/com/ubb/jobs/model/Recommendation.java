@@ -27,6 +27,9 @@ public class Recommendation {
     @Column(name="RECOMMENDED_PROVIDER")
     private Integer recommendedProvider;
 
+    @Column(name="USER_FOR")
+    private Integer userFor;
+
     @Column(name = "DESCRIPTION")
     private String description;
 

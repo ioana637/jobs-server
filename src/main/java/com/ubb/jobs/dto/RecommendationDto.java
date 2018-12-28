@@ -18,6 +18,8 @@ public class RecommendationDto {
 
     private UserDto recommender;
 
+    private UserDto userFor;
+
     private UserDto recommendedProvider;
 
     private String description;
