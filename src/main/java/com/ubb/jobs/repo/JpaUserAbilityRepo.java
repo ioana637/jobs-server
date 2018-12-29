@@ -10,4 +10,6 @@ import java.util.List;
 public interface JpaUserAbilityRepo extends JpaRepository<UserAbilities, Integer> {
 
     List<UserAbilities> findAllByUser_Id(Integer id);
+
+    Integer removeAllByUser_Id(Integer id);
 }

@@ -1,5 +1,6 @@
 package com.ubb.jobs.repo.impl;
 
+import com.ubb.jobs.dto.AbilityDto;
 import com.ubb.jobs.dto.UserAbilitiesDto;
 import com.ubb.jobs.model.UserAbilities;
 import com.ubb.jobs.repo.JpaUserAbilityRepo;
@@ -28,4 +29,12 @@ public class UserAbilityRepo {
         return mapper.toDtos(dtos);
     }
 
+    public int removeAllByUserId(Integer integer) {
+         return repo.removeAllByUser_Id(integer);
+    }
+
+    public List<UserAbilitiesDto> saveAll(List<UserAbilitiesDto> userAbilitiesDtos) {
+        List<UserAbilities> entities = repo.saveAll(mapper.toEntities(userAbilitiesDtos));
+        return mapper.toDtos(entities);
+    }
 }

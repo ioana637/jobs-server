@@ -1,17 +1,16 @@
 package com.ubb.jobs.service;
 
-import com.ubb.jobs.dto.AbilityDto;
-import com.ubb.jobs.dto.ReviewDto;
-import com.ubb.jobs.dto.UserAbilitiesDto;
-import com.ubb.jobs.dto.UserDto;
+import com.ubb.jobs.dto.*;
 import com.ubb.jobs.model.Role;
 import com.ubb.jobs.model.User;
+import com.ubb.jobs.repo.impl.AbilityRepo;
 import com.ubb.jobs.repo.impl.ReviewRepo;
 import com.ubb.jobs.repo.impl.UserAbilityRepo;
 import com.ubb.jobs.repo.impl.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -29,6 +28,9 @@ public class UserService {
     @Autowired
     private UserAbilityRepo userAbilityRepo;
 
+    @Autowired
+    private AbilityRepo abilityRepo;
+
     public UserDto login(String username, String password) {
         User user = new User();
         user.setUsername(username);
@@ -36,8 +38,24 @@ public class UserService {
         return userRepo.getByUsernameAndPassword(user);
     }
 
+    @Transactional
     public UserDto add(UserDto dto) {
+        if (dto.getId() != null) {
+            userAbilityRepo.removeAllByUserId(Integer.valueOf(dto.getId()));
+        }
+        List<AbilityDto> abilityDtos = abilityRepo.saveAll(dto.getAbilities());
+        for (int i = 0; i < abilityDtos.size(); i++)
+            abilityDtos.get(i).setLevel(dto.getAbilities().get(i).getLevel());
+        dto.setAbilities(null);
         UserDto saved =  userRepo.addUser(dto);
+        List<UserAbilitiesDto> userAbilitiesDtos= abilityDtos.stream().map(abilityDto -> {
+            UserAbilitiesDto userAbilitiesDto= new UserAbilitiesDto();
+            userAbilitiesDto.setAbility(abilityDto);
+            userAbilitiesDto.setUser(saved);
+            userAbilitiesDto.setLevel(abilityDto.getLevel());
+            return userAbilitiesDto;
+        }).collect(Collectors.toList());
+        userAbilityRepo.saveAll(userAbilitiesDtos);
         return saved;
     }
 
