@@ -9,6 +9,7 @@ import com.ubb.jobs.repo.impl.AbilityRepo;
 import com.ubb.jobs.repo.impl.JobAbilityRepo;
 import com.ubb.jobs.repo.impl.JobRepo;
 import com.ubb.jobs.repo.impl.UserRepo;
+import com.ubb.jobs.utils.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class JobService {
+
+    @Autowired
+    MailSender sender;
 
     @Autowired
     private JobRepo jobRepo;
@@ -70,7 +74,14 @@ public class JobService {
             return jobAbilityDto;
         }).collect(Collectors.toList());
         jobAbilityRepo.saveAll(jobAbilityDtos);
+        alertUsers(saved);
         return saved;
+    }
+
+    private void alertUsers(JobDto saved) {
+        List<UserDto> users = userRepo.findSubscribedProviders();
+        String[] mails = (String[])users.stream().map(UserDto::getEmail).collect(Collectors.toList()).toArray();
+        sender.sendMail("Job nou adaugat", "S-a adaugat job-ul: " + saved.getTitle(), mails);
     }
 
     public JobDto getJobById(Integer id) {
