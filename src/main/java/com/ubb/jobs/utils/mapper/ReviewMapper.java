@@ -4,15 +4,23 @@ import com.ubb.jobs.dto.ReviewDto;
 import com.ubb.jobs.model.Review;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
 
-//    @Mapping(target = "idUserFor", source = "userFor.id")
+    @Mappings({
+            @Mapping(target = "idUserFor", source = "userFor.id"),
+            @Mapping(target = "jobId", source = "job.id")
+    })
+
     Review toEntity(ReviewDto reviewDto);
-//    @Mapping(target = "userFor.id", source = "idUserFor")
+    @Mappings({
+            @Mapping(target = "userFor.id", source = "idUserFor"),
+            @Mapping(target = "job.id", source = "jobId")
+    })
     ReviewDto toDto(Review entity);
 
     List<Review> toEntities(List<ReviewDto> dtos);

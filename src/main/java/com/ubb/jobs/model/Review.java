@@ -27,6 +27,9 @@ public class Review {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "ID_JOB")
+    private Integer jobId;
+
     @Column(name = "DATE")
     @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime date;
