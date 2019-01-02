@@ -103,5 +103,4 @@ public class UserService {
         List<UserDto>dtos=userRepo.findProviders(Role.PROVIDER);
         return addAbilityToUsers(dtos);
     }
-
 }

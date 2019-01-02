@@ -1,5 +1,6 @@
 package com.ubb.jobs.controller;
 
+import com.ubb.jobs.dto.AbilityDto;
 import com.ubb.jobs.dto.UserDto;
 import com.ubb.jobs.service.UserService;
 import com.ubb.jobs.utils.constants.EndPoint;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -53,6 +55,66 @@ public class LoginController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping("/rating={starAvg}")
+    public ResponseEntity<List<UserDto>> getProvidersByRating(@PathVariable("starAvg") String starAvg) {
+        List<UserDto> allProviders = service.findProviders();
+        List<UserDto> providers = new ArrayList<>();
+        if (allProviders == null) {
+            log.info("Unable to find any providers");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        for (UserDto userDto : allProviders) {
+            if (userDto.getStarAvg().equals(starAvg)) {
+                providers.add(userDto);
+            }
+        }
+
+        if (providers == null) {
+            log.info("Unable to find any providers with this rating: " + starAvg);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        log.info("Returning " + providers.size());
+
+        return new ResponseEntity<>(providers, HttpStatus.OK);
+    }
+
+    @GetMapping("/abilities={abilities}")
+    public ResponseEntity<List<UserDto>> getProvidersByAbilities(@PathVariable("abilities") List<String> abilities){
+        List<UserDto> allProviders = service.findProviders();
+        List<UserDto> providers = new ArrayList<>();
+        if (allProviders == null) {
+            log.info("Unable to find any providers");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        for(UserDto userDto : allProviders){
+            if(hasThisAbility(userDto,abilities)) {
+                providers.add(userDto);
+            }
+        }
+
+        if (providers == null) {
+            log.info("Unable to find any providers with this abilities");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        log.info("Returning " + providers.size());
+
+        return new ResponseEntity<>(providers, HttpStatus.OK);
+    }
+
+    private boolean hasThisAbility(UserDto userDto, List<String> abilities) {
+        for(String abilityId : abilities){
+            for(AbilityDto userAbility : userDto.getAbilities()){
+                if(userAbility.getId().equals(abilityId))
+                    return true;
+            }
+        }
+        return false;
+    }
+
     @GetMapping("providers")
     public ResponseEntity<List<UserDto>> getProviders() {
         List<UserDto> users = service.findProviders();
@@ -75,5 +137,7 @@ public class LoginController {
         log.info("Returning " + users.size());
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
+
 
 }
