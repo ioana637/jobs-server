@@ -78,9 +78,9 @@ public class Job  {
     @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime date;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_JOB")
-    private Set<User> usersReviewed;
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "ID_JOB")
+//    private Set<Review> usersReviewed;
 
     @Column(name = "LOCATION")
     String location;
