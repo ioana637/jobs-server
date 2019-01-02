@@ -104,4 +104,14 @@ public class UserService {
         return addAbilityToUsers(dtos);
     }
 
+    public List<UserDto> getProvidersByRating(Float starAvg){
+        List<UserDto> dtos = userRepo.getProvidersByRating(Role.PROVIDER,starAvg);
+        return addAbilityToUsers(dtos);
+    }
+
+    public List<UserDto> getProvidersByAbilities(List<Integer> abilities){
+        List<UserDto> dtos = userRepo.getProvidersByAbilities(Role.PROVIDER,abilities);
+        return addAbilityToUsers(dtos);
+    }
+
 }

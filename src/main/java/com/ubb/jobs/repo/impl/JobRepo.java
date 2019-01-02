@@ -9,7 +9,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class JobRepo {
@@ -28,6 +32,31 @@ public class JobRepo {
         List<Job> jobs = jobRepo.findAll();
 
         return jobMapper.toDtos(jobs);
+    }
+
+    public List<JobDto> getJobsByCategory(List<String> categories){
+        List<Job> jobs = jobRepo.findJobsByCategoryIn(categories);
+        return jobMapper.toDtos(jobs);
+    }
+
+    public List<JobDto> getLastNJobs(Integer lastN){
+        List<Job> allJobs = jobRepo.findAll();
+        Collections.sort(allJobs, (Comparator<Job>) (o1, o2) -> {
+
+            LocalDateTime date1 = o1.getDate();
+            LocalDateTime date2 = o2.getDate();
+
+            return date2.compareTo(date1);
+        });
+
+        if(allJobs.size()<=lastN){
+            return jobMapper.toDtos(allJobs);
+        }
+        else {
+            List<Job> firstNElementsList = allJobs.stream().limit(lastN).collect(Collectors.toList());
+
+            return jobMapper.toDtos(firstNElementsList);
+        }
     }
 
     public JobDto save(JobDto job) {

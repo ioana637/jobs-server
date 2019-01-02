@@ -10,7 +10,10 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -41,6 +44,29 @@ public class JobController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         log.info("Returning " + jobs.size() + " from page " + pageNumber);
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
+    }
+
+    @GetMapping("/categories={categoriesList}")
+    public ResponseEntity<List<JobDto>> getJobsByCategory(@PathVariable("categoriesList") List<String> categories){
+        List<JobDto> jobs = jobService.getJobsByCategory(categories);
+        if (jobs == null) {
+            log.info("Unable to find any jobs for this categories");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        log.info("Returning " + jobs.size());
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
+    }
+
+    @GetMapping("/lastNJobs={lastNJobs}")
+    public ResponseEntity<List<JobDto>> getLastNJobs(@PathVariable("lastNJobs") Integer lastN){
+        List<JobDto> jobs = jobService.getLastNJobs(lastN);
+        if (jobs == null) {
+            log.info("Unable to find any jobs for this categories");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Returning " + jobs.size());
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 

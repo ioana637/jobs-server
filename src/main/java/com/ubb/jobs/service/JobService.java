@@ -99,4 +99,30 @@ public class JobService {
         }).collect(Collectors.toSet()));
         return job;
     }
+
+    public List<JobDto> getJobsByCategory(List<String> categories){
+        List<JobDto> dtos = jobRepo.getJobsByCategory(categories);
+
+//        dtos =  dtos.stream().map(job -> {
+//
+//            job.setAbilities(job.getAbilities().stream().map(abilityDto ->
+//                    abilityRepo.getAbilityById(Integer.valueOf(abilityDto.getId()))).collect(Collectors.toList()));
+//            return job;
+//        }).collect(Collectors.toList());
+
+        return dtos;
+    }
+
+    public List<JobDto> getLastNJobs(Integer lastN){
+        List<JobDto> dtos = jobRepo.getLastNJobs(lastN);
+
+        dtos =  dtos.stream().map(job -> {
+
+            job.setAbilities(job.getAbilities().stream().map(abilityDto ->
+                    abilityRepo.getAbilityById(Integer.valueOf(abilityDto.getId()))).collect(Collectors.toList()));
+            return job;
+        }).collect(Collectors.toList());
+
+        return dtos;
+    }
 }
