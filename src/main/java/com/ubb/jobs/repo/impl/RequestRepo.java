@@ -34,4 +34,9 @@ public class RequestRepo {
         List<Request> requests =requestRepo.findRequestByUserFrom(id);
         return requestMapper.toDtos(requests);
     }
+
+
+    public RequestDto getRequestById(Integer id) {
+        return requestMapper.toDto(requestRepo.findRequestById(id));
+    }
 }

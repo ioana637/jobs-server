@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "Proiect_Colectiv",
-		"_postman_id": "8bed542b-b3c7-ea98-b3f8-91c6dcd4f3d6",
+		"_postman_id": "03a889dd-2fb7-5345-2b53-809fb1693e49",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -53,7 +53,10 @@
 						"description": ""
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -64,7 +67,10 @@
 				"url": "http://localhost:8080/ability/levels",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -75,6 +81,35 @@
 				"url": "http://localhost:8080/job/id=16",
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET_REQUEST_BY_ID",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "lucian",
+						"password": "lucian",
+						"saveHelperData": true,
+						"showPassword": false
+					}
+				},
+				"url": "http://localhost:8080/request/id=1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic bHVjaWFuOmx1Y2lhbg==",
+						"description": ""
+					}
+				],
 				"body": {},
 				"description": ""
 			},
