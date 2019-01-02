@@ -19,7 +19,9 @@ public class ReviewDto {
 
     private String idUser;
 
-    private String idUserFor;
+    private UserDto userFor;
+
+    private JobDto job;
 
     private String date;
 

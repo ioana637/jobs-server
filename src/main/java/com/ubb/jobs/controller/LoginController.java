@@ -25,7 +25,7 @@ public class LoginController {
     public ResponseEntity<UserDto> login() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String password = SecurityContextHolder.getContext().getAuthentication().getCredentials().toString();
-        UserDto userDto = service.login(username, password);
+        UserDto userDto = service.getUser(username, password);
         if (userDto == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(userDto, HttpStatus.OK);
