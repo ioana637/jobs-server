@@ -105,7 +105,12 @@ public class UserService {
     }
 
     public List<UserDto> getProvidersByRating(Float starAvg){
-        List<UserDto> dtos = userRepo.getProvidersByRating(Role.PROVIDER,starAvg);
+        List<UserDto> dtos = userRepo.findProviders(Role.PROVIDER);
+        dtos = dtos.stream().map(dto-> {
+            List<ReviewDto> reviewDtos = reviewRepo.findReviewsForUser(Integer.valueOf(dto.getId()));
+            dto.setStarAvg(String.valueOf(reviewDtos.stream().mapToDouble(review-> Float.valueOf(review.getStars())).average().orElse(0.0)));
+            return dto;
+        }).filter(dto-> Float.valueOf(dto.getStarAvg()) >= starAvg).collect(Collectors.toList());
         return addAbilityToUsers(dtos);
     }
 

@@ -41,7 +41,7 @@ public class JobRepo {
 
     public List<JobDto> getLastNJobs(Integer lastN){
         List<Job> allJobs = jobRepo.findAll();
-        Collections.sort(allJobs, (Comparator<Job>) (o1, o2) -> {
+        Collections.sort(allJobs, (o1, o2) -> {
 
             LocalDateTime date1 = o1.getDate();
             LocalDateTime date2 = o2.getDate();

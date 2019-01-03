@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class UserRepo {
@@ -56,18 +57,6 @@ public class UserRepo {
         return userMapper.toDtos(users);
     }
 
-    public List<UserDto> getProvidersByRating(Role role, Float starAvg){
-        List<User> allProviders = jpaUserRepo.findAllByRole(role);
-        List<User> providers = new ArrayList<>();
-
-        for (User user : allProviders) {
-            if (user.getStarAvg() >= starAvg) {
-                providers.add(user);
-            }
-        }
-
-        return userMapper.toDtos(providers);
-    }
 
     public List<UserDto> getProvidersByAbilities(Role role, List<Integer> abilities){
         List<User> allProviders = jpaUserRepo.findAllByRole(role);

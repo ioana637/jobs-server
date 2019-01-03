@@ -16,4 +16,5 @@ public interface JpaUserRepo extends JpaRepository<User, Integer> {
     User findUserByUsernameAndPassword(String username, String password);
     Page<User> findAllByRoleEquals(Role role, Pageable pageable);
     List<User> findAllByRole(Role role);
+    List<User> findAllByRoleAndStarAvgIsGreaterThanEqual(Role role, Float avg);
 }
