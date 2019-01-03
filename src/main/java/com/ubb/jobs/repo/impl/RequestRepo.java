@@ -26,12 +26,12 @@ public class RequestRepo {
     }
 
     public List<RequestDto> getRequestByClient(int id){
-        List<Request> requests =requestRepo.findRequestByUserTo(id);
+        List<Request> requests =requestRepo.findRequestByUserFrom(id);
         return requestMapper.toDtos(requests);
     }
 
     public List<RequestDto> getRequestByProvider(int id){
-        List<Request> requests =requestRepo.findRequestByUserFrom(id);
+        List<Request> requests =requestRepo.findRequestByUserTo(id);
         return requestMapper.toDtos(requests);
     }
 
