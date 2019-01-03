@@ -14,7 +14,5 @@ public interface JpaJobRepo extends JpaRepository<Job, Integer> {
     List<Job> findJobsByIdClient(Integer id);
     Job findJobById(Integer id);
     Page<Job> findAllByIdClient(Integer id, Pageable pageable);
-
-
-
+    List<Job> findJobsByCategoryIn(List<String> categories);
 }
