@@ -51,4 +51,16 @@ public class RequestController {
         log.info("Found " + requests.size() + "request(s)");
         return new ResponseEntity<>(requests, HttpStatus.OK);
     }
+
+    @GetMapping("/id={requestId}")
+    public ResponseEntity<RequestDto> getRequestById(@PathVariable("requestId") Integer requestId) {
+
+        RequestDto requestDto = service.getRequestById(requestId);
+        if (requestDto == null) {
+            log.info("Unable to find any request with id: " + requestId);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        log.info("Returning request with id: " + requestId);
+        return new ResponseEntity<>(requestDto, HttpStatus.OK);
+    }
 }

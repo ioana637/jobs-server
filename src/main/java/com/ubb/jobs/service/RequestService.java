@@ -41,18 +41,25 @@ public class RequestService {
     }
 
     private List<RequestDto> createDtos(List<RequestDto> requests) {
-        return requests.stream().map(requestDto -> {
-            UserDto userFrom = userRepo.getOne(Integer.valueOf(requestDto.getUserFrom().getId()));
-            userFrom.setPassword(null);
-            UserDto userTo = userRepo.getOne(Integer.valueOf(requestDto.getUserTo().getId()));
-            userTo.setPassword(null);
-            JobDto job = jobRepo.getOne(Integer.valueOf(requestDto.getJob().getId()));
-            requestDto.setJob(job);
-            requestDto.setUserFrom(userFrom);
-            requestDto.setUserTo(userTo);
-            return requestDto;
-        }).collect(Collectors.toList());
+        return requests.stream()
+                .map(this::createDto)
+                .collect(Collectors.toList());
     }
 
+    private RequestDto createDto(RequestDto requestDto) {
+        UserDto userFrom = userRepo.getOne(Integer.valueOf(requestDto.getUserFrom().getId()));
+        userFrom.setPassword(null);
+        UserDto userTo = userRepo.getOne(Integer.valueOf(requestDto.getUserTo().getId()));
+        userTo.setPassword(null);
+        JobDto job = jobRepo.getOne(Integer.valueOf(requestDto.getJob().getId()));
+        requestDto.setJob(job);
+        requestDto.setUserFrom(userFrom);
+        requestDto.setUserTo(userTo);
+        return requestDto;
+    }
 
+    public RequestDto getRequestById(Integer id) {
+        RequestDto request = requestRepo.getRequestById(id);
+        return createDto(request);
+    }
 }
