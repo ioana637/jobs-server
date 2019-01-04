@@ -131,4 +131,8 @@ public class JobService {
             return job;
         }).collect(Collectors.toList());
     }
+
+    public List<JobDto> getJobForEmployee(Integer userId) {
+        return jobRepo.getByEmployee(userRepo.getOne(userId));
+    }
 }

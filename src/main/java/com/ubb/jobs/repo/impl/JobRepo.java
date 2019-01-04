@@ -1,9 +1,11 @@
 package com.ubb.jobs.repo.impl;
 
 import com.ubb.jobs.dto.JobDto;
+import com.ubb.jobs.dto.UserDto;
 import com.ubb.jobs.model.Job;
 import com.ubb.jobs.repo.JpaJobRepo;
 import com.ubb.jobs.utils.mapper.JobMapper;
+import com.ubb.jobs.utils.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +25,9 @@ public class JobRepo {
 
     @Autowired
     private JobMapper jobMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
 
     @Autowired
@@ -73,6 +78,11 @@ public class JobRepo {
     public JobDto getOne(Integer id) {
         Job job = jobRepo.getOne(id);
         return jobMapper.toDto(job);
+    }
+
+    public List<JobDto> getByEmployee(UserDto userDto) {
+        List<Job> jobs = jobRepo.findJobsByProvidersContains(userMapper.toEntity(userDto));
+        return jobMapper.toDtos(jobs);
     }
 
     public JobDto findJobById(Integer id) {

@@ -89,5 +89,15 @@ public class JobController {
         }
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<JobDto>> getJobsForEmployee(@PathVariable Integer userId) {
+        List<JobDto> jobs = jobService.getJobForEmployee(userId);
+        if (jobs == null) {
+            log.info("Something went wrong");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
+
+    }
 
 }

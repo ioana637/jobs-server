@@ -2,6 +2,7 @@ package com.ubb.jobs.repo;
 
 import com.ubb.jobs.dto.JobDto;
 import com.ubb.jobs.model.Job;
+import com.ubb.jobs.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,5 @@ public interface JpaJobRepo extends JpaRepository<Job, Integer> {
     Job findJobById(Integer id);
     Page<Job> findAllByIdClient(Integer id, Pageable pageable);
     List<Job> findJobsByCategoryIn(List<String> categories);
+    List<Job> findJobsByProvidersContains(User user);
 }
