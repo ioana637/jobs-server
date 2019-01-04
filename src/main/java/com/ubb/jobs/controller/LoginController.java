@@ -100,6 +100,15 @@ public class LoginController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-
+    @GetMapping("/id={userId}/")
+    public ResponseEntity<List<UserDto>> getClientContributors(@PathVariable("userId") String userId){
+        List<UserDto> users=service.getClientContributors(userId);
+        if (users == null) {
+            log.info("Unable to find any providers");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Returning " + users.size());
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 
 }

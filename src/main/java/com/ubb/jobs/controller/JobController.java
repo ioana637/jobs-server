@@ -1,6 +1,7 @@
 package com.ubb.jobs.controller;
 
 import com.ubb.jobs.dto.JobDto;
+import com.ubb.jobs.dto.UserDto;
 import com.ubb.jobs.service.JobService;
 import com.ubb.jobs.utils.constants.EndPoint;
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +71,7 @@ public class JobController {
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
+
     @PostMapping
     public ResponseEntity<JobDto> save(@RequestBody JobDto job) {
         JobDto saved = jobService.add(job);
@@ -89,5 +91,7 @@ public class JobController {
         }
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
+
+
 
 }

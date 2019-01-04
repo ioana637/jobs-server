@@ -1,20 +1,15 @@
 package com.ubb.jobs.service;
 
 import com.ubb.jobs.dto.*;
+import com.ubb.jobs.model.Job;
 import com.ubb.jobs.model.Role;
 import com.ubb.jobs.model.User;
-import com.ubb.jobs.repo.impl.AbilityRepo;
-import com.ubb.jobs.repo.impl.ReviewRepo;
-import com.ubb.jobs.repo.impl.UserAbilityRepo;
-import com.ubb.jobs.repo.impl.UserRepo;
+import com.ubb.jobs.repo.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalDouble;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -31,6 +26,9 @@ public class UserService {
 
     @Autowired
     private AbilityRepo abilityRepo;
+
+    @Autowired
+    private JobRepo jobRepo;
 
     public UserDto login(String username, String password) {
         User user = new User();
@@ -127,6 +125,17 @@ public class UserService {
     public List<UserDto> getProvidersByAbilities(List<Integer> abilities){
         List<UserDto> dtos = userRepo.getProvidersByAbilities(Role.PROVIDER,abilities);
         return addAbilityToUsers(dtos);
+    }
+
+    public List<UserDto> getClientContributors(String userId){
+        List<JobDto> allJobs=jobRepo.findAll();
+        List<UserDto> providers=new ArrayList<>();
+        for (JobDto job:allJobs) {
+            if(job.getIdClient().equals(userId)){
+                providers.addAll(job.getProviders());
+            }
+        }
+        return  addAbilityToUsers(providers);
     }
 
 }

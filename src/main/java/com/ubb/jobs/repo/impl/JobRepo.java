@@ -1,7 +1,9 @@
 package com.ubb.jobs.repo.impl;
 
 import com.ubb.jobs.dto.JobDto;
+import com.ubb.jobs.dto.UserDto;
 import com.ubb.jobs.model.Job;
+import com.ubb.jobs.model.User;
 import com.ubb.jobs.repo.JpaJobRepo;
 import com.ubb.jobs.utils.mapper.JobMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +76,7 @@ public class JobRepo {
         Job job = jobRepo.getOne(id);
         return jobMapper.toDto(job);
     }
+
 
     public JobDto findJobById(Integer id) {
         return jobMapper.toDto(jpaJobRepo.findJobById(id));
