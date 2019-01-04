@@ -133,6 +133,11 @@ public class JobService {
     }
 
     public List<JobDto> getJobForEmployee(Integer userId) {
-        return jobRepo.getByEmployee(userRepo.getOne(userId));
+        List<JobDto> jobs =  jobRepo.getByEmployee(userRepo.getOne(userId));
+        return jobs.stream().map(job-> {
+            job.setProviders(null);
+            job.setAbilities(null);
+            return job;
+        }).collect(Collectors.toList());
     }
 }
