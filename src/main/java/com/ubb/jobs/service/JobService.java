@@ -37,13 +37,8 @@ public class JobService {
 
     public List<JobDto> findForClientId(Integer id, int pageNumber, int pageSize) {
         List<JobDto> dtos = jobRepo.getForClientIdPaginated(id, pageNumber, pageSize);
-        dtos =  dtos.stream().map(job -> {
+        return buildJobDto(dtos);
 
-               job.setAbilities(job.getAbilities().stream().map(abilityDto ->
-                        abilityRepo.getAbilityById(Integer.valueOf(abilityDto.getId()))).collect(Collectors.toList()));
-        return job;
-        }).collect(Collectors.toList());
-        return dtos;
     }
 
     @Transactional
@@ -95,5 +90,51 @@ public class JobService {
             return provider;
         }).collect(Collectors.toSet()));
         return job;
+    }
+
+    public List<JobDto> getJobsByCategory(List<String> categories){
+        List<JobDto> dtos = jobRepo.getJobsByCategory(categories);
+
+
+//        dtos =  dtos.stream().map(job -> {
+//
+//            job.setAbilities(job.getAbilities().stream().map(abilityDto ->
+//                    abilityRepo.getAbilityById(Integer.valueOf(abilityDto.getId()))).collect(Collectors.toList()));
+//            return job;
+//        }).collect(Collectors.toList());
+
+        return buildJobDto(dtos);
+    }
+
+    public List<JobDto> getLastNJobs(Integer lastN){
+        List<JobDto> dtos = jobRepo.getLastNJobs(lastN);
+
+        return buildJobDto(dtos);
+
+    }
+
+    private List<JobDto> buildJobDto(List<JobDto> dtos) {
+        return dtos.stream().map(job -> {
+
+            job.setAbilities(job.getAbilities().stream().map(abilityDto -> {
+                JobAbilityDto jobAbilityDto = jobAbilityRepo.getOneByAbilityAndJob(Integer.valueOf(abilityDto.getId()), Integer.valueOf(job.getId()));
+                abilityDto.setLevel(jobAbilityDto.getLevel());
+                return abilityDto;
+            }).collect(Collectors.toList()));
+            job.setProviders(job.getProviders().stream().map(user->  {
+                user.setPassword(null);
+                return user;
+            }).collect(Collectors.toSet()));
+            return job;
+        }).collect(Collectors.toList());
+    }
+
+    public List<JobDto> getJobForEmployee(Integer userId) {
+        List<JobDto> jobs =  jobRepo.getByEmployee(userRepo.getOne(userId));
+        return jobs.stream().map(job-> {
+            job.setProviders(null);
+            job.setAbilities(null);
+            return job;
+        }).collect(Collectors.toList());
     }
 }

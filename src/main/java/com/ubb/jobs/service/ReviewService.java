@@ -62,8 +62,12 @@ public class ReviewService {
                 job = jobRepo.findJobById(Integer.valueOf(dto.getJob().getId()));
                 dto.getJob().setTitle(job.getTitle());
             }
-            UserDto user = userRepo.getOne(Integer.valueOf(dto.getUserFor().getId()));
-            dto.setUserFor(user);
+            UserDto userFor = userRepo.getOne(Integer.valueOf(dto.getUserFor().getId()));
+            userFor.setPassword(null);
+            dto.setUserFor(userFor);
+            UserDto userFrom = userRepo.getOne(Integer.valueOf(dto.getUserFrom().getId()));
+            userFrom.setPassword(null);
+            dto.setUserFrom(userFrom);
             return dto;
         }).collect(Collectors.toList());
     }

@@ -12,12 +12,14 @@ import java.util.List;
 public interface ReviewMapper {
 
     @Mappings({
+            @Mapping(target = "idUser", source = "userFrom.id"),
             @Mapping(target = "idUserFor", source = "userFor.id"),
             @Mapping(target = "jobId", source = "job.id")
     })
 
     Review toEntity(ReviewDto reviewDto);
     @Mappings({
+            @Mapping(target = "userFrom.id", source = "idUser"),
             @Mapping(target = "userFor.id", source = "idUserFor"),
             @Mapping(target = "job.id", source = "jobId")
     })

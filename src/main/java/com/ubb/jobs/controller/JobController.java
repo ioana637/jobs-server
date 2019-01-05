@@ -6,12 +6,11 @@ import com.ubb.jobs.utils.constants.EndPoint;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+
 
 @RestController
 @CrossOrigin
@@ -45,6 +44,29 @@ public class JobController {
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
+    @GetMapping("/categories={categoriesList}")
+    public ResponseEntity<List<JobDto>> getJobsByCategory(@PathVariable("categoriesList") List<String> categories){
+        List<JobDto> jobs = jobService.getJobsByCategory(categories);
+        if (jobs == null) {
+            log.info("Unable to find any jobs for this categories");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        log.info("Returning " + jobs.size());
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
+    }
+
+    @GetMapping("/lastNJobs={lastNJobs}")
+    public ResponseEntity<List<JobDto>> getLastNJobs(@PathVariable("lastNJobs") Integer lastN){
+        List<JobDto> jobs = jobService.getLastNJobs(lastN);
+        if (jobs == null) {
+            log.info("Unable to find any jobs for this categories");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Returning " + jobs.size());
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<JobDto> save(@RequestBody JobDto job) {
         JobDto saved = jobService.add(job);
@@ -63,6 +85,16 @@ public class JobController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<JobDto>> getJobsForEmployee(@PathVariable Integer userId) {
+        List<JobDto> jobs = jobService.getJobForEmployee(userId);
+        if (jobs == null) {
+            log.info("Something went wrong");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
+
     }
 
 }
