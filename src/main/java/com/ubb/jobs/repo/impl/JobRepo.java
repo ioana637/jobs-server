@@ -3,6 +3,7 @@ package com.ubb.jobs.repo.impl;
 import com.ubb.jobs.dto.JobDto;
 import com.ubb.jobs.dto.UserDto;
 import com.ubb.jobs.model.Job;
+import com.ubb.jobs.model.User;
 import com.ubb.jobs.repo.JpaJobRepo;
 import com.ubb.jobs.utils.mapper.JobMapper;
 import com.ubb.jobs.utils.mapper.UserMapper;

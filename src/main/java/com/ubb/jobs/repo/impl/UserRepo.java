@@ -57,7 +57,6 @@ public class UserRepo {
         return userMapper.toDtos(users);
     }
 
-
     public List<UserDto> getProvidersByAbilities(Role role, List<Integer> abilities){
         List<User> allProviders = jpaUserRepo.findAllByRole(role);
         List<User> providers = new ArrayList<>();
@@ -71,6 +70,7 @@ public class UserRepo {
         return userMapper.toDtos(providers);
 }
 
+
     private boolean hasThisAbility(User user, List<Integer> abilities) {
         for(Integer abilityId : abilities){
             for(UserAbilities userAbility : user.getUserAbilities()){
@@ -80,4 +80,5 @@ public class UserRepo {
         }
         return false;
     }
+
 }
