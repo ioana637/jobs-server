@@ -2,6 +2,7 @@ package com.ubb.jobs.service;
 
 import com.ubb.jobs.dto.JobDto;
 import com.ubb.jobs.dto.UserDto;
+import com.ubb.jobs.model.JobStatus;
 import com.ubb.jobs.model.Role;
 import com.ubb.jobs.model.User;
 import com.ubb.jobs.repo.impl.JobRepo;
@@ -9,10 +10,7 @@ import com.ubb.jobs.repo.impl.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class StatisticsService {
@@ -52,5 +50,21 @@ public class StatisticsService {
                 clients.add(job.getIdClient());
         }
         return clients.size();
+    }
+
+    public List<JobDto> getAllJobs() {
+        List<JobDto> dtos = jobRepo.findAll();
+        return dtos;
+    }
+
+    public List<JobDto> getAvailableJobs() {
+        List<JobDto> jobs = jobRepo.findAll();
+        List<JobDto> available = new ArrayList<>();
+        for (JobDto job : jobs) {
+            if (JobStatus.valueOf(job.getStatus()).equals(JobStatus.AVAILABLE))
+                available.add(job);
+        }
+
+        return available;
     }
 }
