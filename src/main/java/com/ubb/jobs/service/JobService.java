@@ -5,6 +5,7 @@ import com.ubb.jobs.dto.AbilityDto;
 import com.ubb.jobs.dto.JobAbilityDto;
 import com.ubb.jobs.dto.JobDto;
 import com.ubb.jobs.dto.UserDto;
+import com.ubb.jobs.model.JobStatus;
 import com.ubb.jobs.repo.impl.AbilityRepo;
 import com.ubb.jobs.repo.impl.JobAbilityRepo;
 import com.ubb.jobs.repo.impl.JobRepo;
@@ -33,11 +34,6 @@ public class JobService {
 
     @Autowired
     private AbilityRepo abilityRepo;
-
-    public List<JobDto> findAll() {
-        List<JobDto> dtos = jobRepo.findAll();
-        return dtos;
-    }
 
     public List<JobDto> findForClientId(Integer id, int pageNumber, int pageSize) {
         List<JobDto> dtos = jobRepo.getForClientIdPaginated(id, pageNumber, pageSize);
