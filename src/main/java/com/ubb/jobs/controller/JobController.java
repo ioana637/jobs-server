@@ -34,6 +34,16 @@ public class JobController {
         return new ResponseEntity<>(job, HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<JobDto>> getAllJobs() {
+        List<JobDto> jobs = jobService.getAll();
+        if (jobs == null) {
+            log.info("Unable to find any jobs");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
+    }
+
     @GetMapping("/user={userId}&limit={pageSize}&start={pageNumber}")
     public ResponseEntity<List<JobDto>> getJobsPaginated(@PathVariable("userId") Integer userId, @PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber) {
         List<JobDto> jobs = jobService.findForClientId(userId, pageNumber, pageSize);

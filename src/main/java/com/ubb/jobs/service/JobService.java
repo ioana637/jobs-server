@@ -41,6 +41,10 @@ public class JobService {
 
     }
 
+    public List<JobDto> getAll() {
+        List<JobDto> jobs = jobRepo.findAll();
+        return buildJobDto(jobs);
+    }
     @Transactional
     public JobDto add(JobDto dto) {
         if (dto.getId() != null) {
