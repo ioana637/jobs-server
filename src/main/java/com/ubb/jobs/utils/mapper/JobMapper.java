@@ -6,12 +6,13 @@ import com.ubb.jobs.dto.UserDto;
 import com.ubb.jobs.model.Job;
 import com.ubb.jobs.model.JobAbility;
 import com.ubb.jobs.model.Level;
+import com.ubb.jobs.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
@@ -19,13 +20,13 @@ public interface JobMapper {
 
     @Mappings({
             @Mapping(target = "abilities", expression = "java(abilitiesToIds(jobDto.getAbilities()))"),
-//            @Mapping(target = "providers", expression = "java(usersToIds(jobDto.getProviders()))")
+            @Mapping(target = "providers", expression = "java(usersToEntity(jobDto.getProviders()))")
 
     })
     Job toEntity(JobDto jobDto);
         @Mappings({
                 @Mapping(target = "abilities", expression = "java(idsToAbilities(job.getAbilities()))"),
-//                @Mapping(target = "providers", expression = "java(idsToUsers(job.getProviders()))")
+                @Mapping(target = "providers", expression = "java(usersToDto(job.getProviders()))")
         })
     JobDto toDto (Job job);
 
@@ -55,15 +56,16 @@ public interface JobMapper {
         return jobAbility;}).collect(Collectors.toList());
     }
 
-    default List<UserDto> idsToUsers(List<Integer> users) {
-        return users == null ? null :users.stream().map(id-> {
-            UserDto user = new UserDto();
-            user.setId(String.valueOf(id));
-            return user;
-        }).collect(Collectors.toList());
+    default Set<UserDto> usersToDto(Set<User> users) {
+        UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+        return userMapper.setDtos(users);
+//        return new HashSet<>(userMapper.toDtos(new ArrayList<>(users)));
     }
-    default List<Integer> usersToIds(List<UserDto> users) {
-        return users == null ? null :users.stream().map(user-> Integer.valueOf(user.getId())).collect(Collectors.toList());
-    }
+    default Set<User> usersToEntity(Set<UserDto> users) {
+        UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+        return userMapper.setEntities(users);
+//        return new HashSet<>(userMapper.toEntities(new ArrayList<>(users)));
+
+     }
 }
 

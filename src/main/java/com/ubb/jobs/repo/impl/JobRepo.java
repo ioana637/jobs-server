@@ -81,6 +81,10 @@ public class JobRepo {
         return jobMapper.toDto(job);
     }
 
+    public List<JobDto> saveAll(List<JobDto> jobs) {
+        List<Job> saved = jobRepo.saveAll(jobMapper.toEntities(jobs));
+        return jobMapper.toDtos(saved);
+    }
     public List<JobDto> getByEmployee(UserDto userDto) {
         List<Job> jobs = jobRepo.findJobsByProvidersContains(userMapper.toEntity(userDto));
         return jobMapper.toDtos(jobs);

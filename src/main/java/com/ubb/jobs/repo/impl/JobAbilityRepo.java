@@ -28,6 +28,6 @@ public class JobAbilityRepo {
     }
 
     public void removeByJobId(Integer integer) {
-        repo.removeAllByJob_Id(integer);
+        int value = repo.removeAllByJob_Id(integer);
     }
 }

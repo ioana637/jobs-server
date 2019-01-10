@@ -3,6 +3,7 @@ package com.ubb.jobs.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.ubb.jobs.model.Job;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -53,4 +54,17 @@ public class UserDto {
     private String starAvg;
 
     private List<AbilityDto> abilities;
+
+    private List<RecommendationDto> recommendations;
+
+    private List<RecommendationDto> recommendationsProvider;
+
+    private List<RecommendationDto> userFor;
+//
+    private List<RequestDto> requestsMade;
+//
+    private List<RequestDto> requestsReceived;
+//
+    private List<JobDto> jobs;
+
 }

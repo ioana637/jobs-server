@@ -22,13 +22,13 @@ public class Recommendation {
     private Integer id;
 
     @Column(name="RECOMMENDER")
-    private Integer recommender;
+    private Integer idRecommender;
 
     @Column(name="RECOMMENDED_PROVIDER")
-    private Integer recommendedProvider;
+    private Integer idRecommendedProvider;
 
     @Column(name="USER_FOR")
-    private Integer userFor;
+    private Integer idUserFor;
 
     @Column(name = "DESCRIPTION")
     private String description;
