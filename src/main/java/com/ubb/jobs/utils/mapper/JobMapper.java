@@ -20,13 +20,15 @@ public interface JobMapper {
 
     @Mappings({
             @Mapping(target = "abilities", expression = "java(abilitiesToIds(jobDto.getAbilities()))"),
-            @Mapping(target = "providers", expression = "java(usersToEntity(jobDto.getProviders()))")
+            @Mapping(target = "providers", expression = "java(usersToEntity(jobDto.getProviders()))"),
+            @Mapping(target = "idClient.id", source = "idClient")
 
     })
     Job toEntity(JobDto jobDto);
         @Mappings({
                 @Mapping(target = "abilities", expression = "java(idsToAbilities(job.getAbilities()))"),
-                @Mapping(target = "providers", expression = "java(usersToDto(job.getProviders()))")
+                @Mapping(target = "providers", expression = "java(usersToDto(job.getProviders()))"),
+                @Mapping(target = "idClient", source = "idClient.id")
         })
     JobDto toDto (Job job);
 

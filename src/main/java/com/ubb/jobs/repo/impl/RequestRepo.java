@@ -32,6 +32,11 @@ public class RequestRepo {
         return requestMapper.toDtos(requests);
     }
 
+    public List<RequestDto> saveAll(List<RequestDto> requestDtos) {
+        List<Request> requests = requestRepo.saveAll(requestMapper.toEntities(requestDtos));
+        return requestMapper.toDtos(requests);
+    }
+
 
 
 

@@ -65,6 +65,10 @@ public class UserDto {
 //
     private List<RequestDto> requestsReceived;
 //
-    private List<JobDto> jobs;
+    private List<ReviewDto> reviewsMade;
+
+    private List<ReviewDto> reviewsReceived;
+
+//    private List<JobDto> jobs;
 
 }

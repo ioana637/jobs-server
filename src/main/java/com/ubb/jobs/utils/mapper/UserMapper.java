@@ -1,13 +1,7 @@
 package com.ubb.jobs.utils.mapper;
 
-import com.ubb.jobs.dto.JobDto;
-import com.ubb.jobs.dto.RecommendationDto;
-import com.ubb.jobs.dto.RequestDto;
-import com.ubb.jobs.dto.UserDto;
-import com.ubb.jobs.model.Job;
-import com.ubb.jobs.model.Recommendation;
-import com.ubb.jobs.model.Request;
-import com.ubb.jobs.model.User;
+import com.ubb.jobs.dto.*;
+import com.ubb.jobs.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -15,10 +9,10 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-
 
 
     @Mappings({
@@ -26,16 +20,23 @@ public interface UserMapper {
             @Mapping(target = "requestsReceived", expression= "java(req2Entity(dto.getRequestsReceived()))"),
             @Mapping(target = "recommendations", expression= "java(rec2Entity(dto.getRecommendations()))"),
             @Mapping(target = "recommendationsProvider", expression= "java(rec2Entity(dto.getRecommendationsProvider()))"),
-            @Mapping(target = "jobs", expression ="java(job2Entity(dto.getJobs()))" )
+//            @Mapping(target = "jobs", expression ="java(job2Entity(dto.getJobs()))" ),
 
+            @Mapping(target = "reviewsMade", expression= "java(rev2Entity(dto.getReviewsMade()))"),
+            @Mapping(target = "reviewsReceived", expression= "java(rev2Entity(dto.getReviewsReceived()))")
     })
     User toEntity(UserDto dto);
+
     @Mappings({
             @Mapping(target = "requestsMade", expression= "java(req2Dto(user.getRequestsMade()))"),
             @Mapping(target = "requestsReceived", expression= "java(req2Dto(user.getRequestsReceived()))"),
             @Mapping(target = "recommendations", expression= "java(rec2Dto(user.getRecommendations()))"),
             @Mapping(target = "recommendationsProvider", expression= "java(rec2Dto(user.getRecommendationsProvider()))"),
-            @Mapping(target = "jobs", expression ="java(job2Dto(user.getJobs()))" )
+            @Mapping(target = "reviewsMade", expression= "java(rev2Dto(user.getReviewsMade()))"),
+            //            @Mapping(target = "jobs", expression ="java(job2Dto(user.getJobs()))" ),
+
+            @Mapping(target = "reviewsReceived", expression= "java(rev2Dto(user.getReviewsReceived()))")
+
     })
     UserDto toDto (User user);
     List<User> toEntities(List<UserDto> dtos);
@@ -74,4 +75,26 @@ public interface UserMapper {
         return mapper.toEntities(req);
     }
 
+    default List<ReviewDto> rev2Dto(List<Review> req) {
+        ReviewMapper mapper = Mappers.getMapper(ReviewMapper.class);
+        return mapper.toDtos(req);
+    }
+
+    default List<Review> rev2Entity(List<ReviewDto> req) {
+        ReviewMapper mapper = Mappers.getMapper(ReviewMapper.class);
+        return mapper.toEntities(req);
+    }
+
+
+//    default List<JobDto> job2Dto(List<Integer> req) {
+//        return req == null ? null : req.stream().map(id->{
+//            JobDto job = new JobDto();
+//            job.setId(String.valueOf(id));
+//            return job;
+//        }).collect(Collectors.toList());
+//    }
+//
+//    default List<Integer> job2Entity(List<JobDto> req) {
+//        return req == null ? null : req.stream().map(job->Integer.valueOf(job.getId())).collect(Collectors.toList());
+//    }
 }

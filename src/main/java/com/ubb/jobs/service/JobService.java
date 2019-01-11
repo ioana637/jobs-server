@@ -1,15 +1,9 @@
 package com.ubb.jobs.service;
 
 
-import com.ubb.jobs.dto.AbilityDto;
-import com.ubb.jobs.dto.JobAbilityDto;
-import com.ubb.jobs.dto.JobDto;
-import com.ubb.jobs.dto.UserDto;
+import com.ubb.jobs.dto.*;
 import com.ubb.jobs.model.JobStatus;
-import com.ubb.jobs.repo.impl.AbilityRepo;
-import com.ubb.jobs.repo.impl.JobAbilityRepo;
-import com.ubb.jobs.repo.impl.JobRepo;
-import com.ubb.jobs.repo.impl.UserRepo;
+import com.ubb.jobs.repo.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -37,32 +31,34 @@ public class JobService {
     private JobAbilityRepo jobAbilityRepo;
 
     @Autowired
+    private RequestRepo requestRepo;
+
+    @Autowired
     private AbilityRepo abilityRepo;
 
-//    @Transactional
-//    @Scheduled(fixedRate = 5000)
-//    public void updateJobs() {
-//        List<JobDto> jobs = jobRepo.findAll();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//        jobs.forEach(job-> {
-//            if (job.getPeriodEnd() != null) {
-//                LocalDate endTime = LocalDate.parse(job.getPeriodEnd(), formatter);
-//                LocalDate now = LocalDate.now();
-//                if (endTime.isBefore(now)) {
-//                    job.setStatus(JobStatus.EXPIRED.name());
-//
-//                }
-//                job.setAbilities(null);
-//                Set<UserDto> providers = job.getProviders();
-//                job.setProviders(null);
-//                jobRepo.save(job);
-//                job.setProviders(providers);
-//                jobRepo.save(job);
-//
-//            }
-//        });
-//
-//    }
+    @Transactional
+    @Scheduled(fixedRate = 15000)
+    public void updateJobs() {
+        List<JobDto> jobs = jobRepo.findAll();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        jobs.forEach(job-> {
+            if (job.getPeriodEnd() != null) {
+                LocalDate endTime = LocalDate.parse(job.getPeriodEnd(), formatter);
+                LocalDate now = LocalDate.now();
+                if (endTime.isBefore(now)) {
+                    job.setStatus(JobStatus.EXPIRED.name());
+                    job.setAbilities(null);
+                    Set<UserDto> providers = job.getProviders();
+                    job.setProviders(null);
+                    jobRepo.save(job);
+                    job.setProviders(providers);
+                    jobRepo.save(job);
+
+                }
+            }
+        });
+
+    }
 
     public List<JobDto> findForClientId(Integer id, int pageNumber, int pageSize) {
         List<JobDto> dtos = jobRepo.getForClientIdPaginated(id, pageNumber, pageSize);
@@ -79,6 +75,7 @@ public class JobService {
         if (dto.getId() != null) {
             jobAbilityRepo.removeByJobId(Integer.valueOf(dto.getId()));
         }
+        UserDto user = userRepo.getOne(Integer.valueOf(dto.getIdClient()));
         List<AbilityDto> abilityDtos = abilityRepo.saveAll(dto.getAbilities());
         for (int i = 0; i < abilityDtos.size(); i++)
             abilityDtos.get(i).setLevel(dto.getAbilities().get(i).getLevel());
@@ -88,9 +85,9 @@ public class JobService {
         dto.setStatus("AVAILABLE");
         Set<UserDto> providers = dto.getProviders();
         dto.setProviders(null);
-        JobDto saved =  jobRepo.save(dto);
-        dto.setProviders(providers);
-        jobRepo.save(dto);
+        JobDto saved =  jobRepo.addJob(dto, user);
+        saved.setProviders(providers);
+        jobRepo.addJob(saved, user);
         List<JobAbilityDto> jobAbilityDtos = abilityDtos.stream().map(abilityDto -> {
             JobAbilityDto jobAbilityDto = new JobAbilityDto();
             jobAbilityDto.setAbility(abilityDto);
@@ -120,11 +117,14 @@ public class JobService {
         return job.getProviders().size() + employees.size() <= Integer.valueOf(job.getPeopleRequired());
     }
 
+    @Transactional
     public JobDto assignEmployees(Integer id, List<String> employees) {
         JobDto job = jobRepo.findJobById(id);
         if (!jobAvailable(job, employees))
             return null;
         Set<UserDto> users = employees.stream().map(unique -> userRepo.getOne(Integer.valueOf(unique))).collect(Collectors.toSet());
+        if (job.getProviders() != null)
+            users.addAll(job.getProviders());
         job.setAbilities(null);
         job.setProviders(null);
         jobRepo.save(job);

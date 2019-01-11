@@ -3,7 +3,6 @@ package com.ubb.jobs.repo.impl;
 import com.ubb.jobs.dto.JobDto;
 import com.ubb.jobs.dto.UserDto;
 import com.ubb.jobs.model.Job;
-import com.ubb.jobs.model.User;
 import com.ubb.jobs.repo.JpaJobRepo;
 import com.ubb.jobs.utils.mapper.JobMapper;
 import com.ubb.jobs.utils.mapper.UserMapper;
@@ -12,8 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -63,6 +60,14 @@ public class JobRepo {
 
             return jobMapper.toDtos(firstNElementsList);
         }
+    }
+
+    public JobDto addJob(JobDto dto, UserDto userDto) {
+        Job temp = jobMapper.toEntity(dto);
+        temp.setIdClient(userMapper.toEntity(userDto));
+//        Job saved = jobRepo.save(jobMapper.toEntity(dto));
+        Job saved = jobRepo.save(temp);
+        return jobMapper.toDto(saved);
     }
 
     public JobDto save(JobDto job) {

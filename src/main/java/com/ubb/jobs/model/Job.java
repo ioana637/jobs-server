@@ -25,12 +25,15 @@ public class Job  {
     @Column(name = "TITLE")
     private String title;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "JOB")
     private List<Request> requests;
 
-    @Column(name = "ID_CLIENT")
-    private Integer idClient;
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "ID_CLIENT")
+//    @Column(name = "ID_CLIENT")
+    private User idClient;
+//    private Integer idClient;
 
     @Column(name = "PERIOD_START")
     @Convert(converter = LocalDateConverter.class)

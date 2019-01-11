@@ -30,6 +30,7 @@ public class UserService {
     @Autowired
     private JobRepo jobRepo;
 
+    @Transactional
     public UserDto login(String username, String password) {
         User user = new User();
         user.setUsername(username);
