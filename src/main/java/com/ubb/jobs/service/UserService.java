@@ -50,6 +50,7 @@ public class UserService {
             dto.setRecommendationsProvider(user.getRecommendationsProvider());
             dto.setRequestsMade(user.getRequestsMade());
             dto.setRequestsReceived(user.getRequestsReceived());
+            dto.setUserFor(user.getUserFor());
         }
         List<AbilityDto> abilityDtos = abilityRepo.saveAll(dto.getAbilities());
         for (int i = 0; i < abilityDtos.size(); i++)
