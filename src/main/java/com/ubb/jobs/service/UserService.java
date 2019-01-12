@@ -135,15 +135,15 @@ public class UserService {
         return addAbilityToUsers(dtos);
     }
 
-    public List<UserDto> getClientContributors(String userId){
-        List<JobDto> allJobs=jobRepo.findAll();
-        List<UserDto> providers=new ArrayList<>();
-        for (JobDto job:allJobs) {
-            if(job.getIdClient().equals(userId)){
-                providers.addAll(job.getProviders());
-            }
+    public List<UserDto> getClientColaborators(Integer userId){
+        UserDto provider=userRepo.getOne(userId);
+        List<UserDto> clientColaborators=new ArrayList<>();
+        List<JobDto> jobs=jobRepo.findAll();
+        for (JobDto job:jobs) {
+            if(job.getProviders().contains(provider))
+                clientColaborators.add(userRepo.getOne(Integer.parseInt(job.getIdClient())));
         }
-        return  addAbilityToUsers(providers);
+        return addAbilityToUsers(clientColaborators);
     }
 
 }
