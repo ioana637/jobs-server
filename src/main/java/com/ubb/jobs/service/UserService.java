@@ -43,6 +43,13 @@ public class UserService {
     public UserDto add(UserDto dto) {
         if (dto.getId() != null) {
             userAbilityRepo.removeAllByUserId(Integer.valueOf(dto.getId()));
+            UserDto user = userRepo.getOne(Integer.valueOf(dto.getId()));
+            dto.setRecommendations(user.getRecommendations());
+            dto.setReviewsReceived(user.getReviewsReceived());
+            dto.setReviewsMade(user.getReviewsMade());
+            dto.setRecommendationsProvider(user.getRecommendationsProvider());
+            dto.setRequestsMade(user.getRequestsMade());
+            dto.setRequestsReceived(user.getRequestsReceived());
         }
         List<AbilityDto> abilityDtos = abilityRepo.saveAll(dto.getAbilities());
         for (int i = 0; i < abilityDtos.size(); i++)

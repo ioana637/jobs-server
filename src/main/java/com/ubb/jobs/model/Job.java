@@ -25,7 +25,7 @@ public class Job  {
     @Column(name = "TITLE")
     private String title;
 
-    @OneToMany(cascade = CascadeType.REFRESH)
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "JOB")
     private List<Request> requests;
 
@@ -66,7 +66,7 @@ public class Job  {
     @Column(name = "HOURS_PER_WEEK")
     private Integer hoursPerWeek;
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "Providers_Jobs",
             joinColumns = {@JoinColumn(name= "ID_JOB")},
@@ -81,7 +81,7 @@ public class Job  {
     @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime date;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_JOB")
     private Set<Review> usersReviewed;
 

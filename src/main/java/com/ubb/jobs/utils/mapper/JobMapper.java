@@ -1,12 +1,7 @@
 package com.ubb.jobs.utils.mapper;
 
-import com.ubb.jobs.dto.AbilityDto;
-import com.ubb.jobs.dto.JobDto;
-import com.ubb.jobs.dto.UserDto;
-import com.ubb.jobs.model.Job;
-import com.ubb.jobs.model.JobAbility;
-import com.ubb.jobs.model.Level;
-import com.ubb.jobs.model.User;
+import com.ubb.jobs.dto.*;
+import com.ubb.jobs.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -21,6 +16,8 @@ public interface JobMapper {
     @Mappings({
             @Mapping(target = "abilities", expression = "java(abilitiesToIds(jobDto.getAbilities()))"),
             @Mapping(target = "providers", expression = "java(usersToEntity(jobDto.getProviders()))"),
+            @Mapping(target = "requests", expression= "java(req2Entity(jobDto.getRequests()))"),
+            @Mapping(target = "usersReviewed", expression= "java(rev2Entity(jobDto.getUsersReviewed()))"),
             @Mapping(target = "idClient.id", source = "idClient")
 
     })
@@ -28,6 +25,8 @@ public interface JobMapper {
         @Mappings({
                 @Mapping(target = "abilities", expression = "java(idsToAbilities(job.getAbilities()))"),
                 @Mapping(target = "providers", expression = "java(usersToDto(job.getProviders()))"),
+                @Mapping(target = "usersReviewed", expression= "java(rev2Dto(job.getUsersReviewed()))"),
+                @Mapping(target = "requests", expression= "java(req2Dto(job.getRequests()))"),
                 @Mapping(target = "idClient", source = "idClient.id")
         })
     JobDto toDto (Job job);
@@ -69,5 +68,25 @@ public interface JobMapper {
 //        return new HashSet<>(userMapper.toEntities(new ArrayList<>(users)));
 
      }
+
+    default List<RequestDto> req2Dto(List<Request> req) {
+        RequestMapper mapper = Mappers.getMapper(RequestMapper.class);
+        return mapper.toDtos(req);
+    }
+
+    default List<Request> req2Entity(List<RequestDto> req) {
+        RequestMapper mapper = Mappers.getMapper(RequestMapper.class);
+        return mapper.toEntities(req);
+    }
+
+    default Set<ReviewDto> rev2Dto(Set<Review> req) {
+        ReviewMapper mapper = Mappers.getMapper(ReviewMapper.class);
+        return mapper.toSetDtos(req);
+    }
+
+    default Set<Review> rev2Entity(Set<ReviewDto> req) {
+        ReviewMapper mapper = Mappers.getMapper(ReviewMapper.class);
+        return mapper.toSetEntities(req);
+    }
 }
 

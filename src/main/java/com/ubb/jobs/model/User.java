@@ -77,28 +77,29 @@ public class User {
     @Column(name = "ROLE")
     private Role role;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "RECOMMENDER")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Recommendation> recommendations;
 
-    @OneToMany(cascade = CascadeType.REFRESH)
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "RECOMMENDED_PROVIDER")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Recommendation> recommendationsProvider;
 
-    @OneToMany(cascade = CascadeType.REFRESH)
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "USER_FOR")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Recommendation> userFor;
 
-    @OneToMany(cascade = CascadeType.REFRESH)
+//    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "USER_FROM")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Request> requestsMade;
 
-
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.REMOVE)
+//    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_TO")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Request> requestsReceived;
@@ -127,11 +128,11 @@ public class User {
 //    private List<Integer> requestedJobs;
 
 
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "ID_USER")
     private List<Review> reviewsMade;
 
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "ID_USER_FOR")
     private List<Review> reviewsReceived;
 
