@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class ReviewRepo {
@@ -52,5 +53,10 @@ public class ReviewRepo {
     public List<ReviewDto> findReviewsForUser(Integer idUserFor){
         List<Review> reviews = jpaReviewRepoR.findAllByIdUserFor(idUserFor);
         return reviewMapper.toDtos(reviews);
+    }
+
+    public Set<ReviewDto> findByJob(Integer jobId) {
+        Set<Review> reviews = jpaReviewRepoR.findAllByJobId(jobId);
+        return reviewMapper.toSetDtos(reviews);
     }
 }

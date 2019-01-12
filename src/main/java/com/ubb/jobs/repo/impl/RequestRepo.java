@@ -1,13 +1,10 @@
 package com.ubb.jobs.repo.impl;
 
 import com.ubb.jobs.dto.RequestDto;
-import com.ubb.jobs.dto.ReviewDto;
 import com.ubb.jobs.model.Request;
-import com.ubb.jobs.model.Review;
 import com.ubb.jobs.repo.JpaRequestRepo;
 import com.ubb.jobs.utils.mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,12 +23,17 @@ public class RequestRepo {
     }
 
     public List<RequestDto> getRequestByClient(int id){
-        List<Request> requests =requestRepo.findRequestByUserFrom(id);
+        List<Request> requests =requestRepo.findRequestByIdUserFrom(id);
         return requestMapper.toDtos(requests);
     }
 
     public List<RequestDto> getRequestByProvider(int id){
-        List<Request> requests =requestRepo.findRequestByUserTo(id);
+        List<Request> requests =requestRepo.findRequestByIdUserTo(id);
+        return requestMapper.toDtos(requests);
+    }
+
+    public List<RequestDto> saveAll(List<RequestDto> requestDtos) {
+        List<Request> requests = requestRepo.saveAll(requestMapper.toEntities(requestDtos));
         return requestMapper.toDtos(requests);
     }
 
@@ -40,5 +42,10 @@ public class RequestRepo {
 
     public RequestDto getRequestById(Integer id) {
         return requestMapper.toDto(requestRepo.findRequestById(id));
+    }
+
+    public List<RequestDto> getRequestByJob(Integer integer) {
+        List<Request> requests = requestRepo.findRequestByIdJob(integer);
+        return requestMapper.toDtos(requests);
     }
 }

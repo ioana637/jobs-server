@@ -48,5 +48,9 @@ public class JobDto {
 
     private Set<UserDto> providers;
 
+    private List<RequestDto> requests;
+
+    private Set<ReviewDto> usersReviewed;
+
     private String date;
 }

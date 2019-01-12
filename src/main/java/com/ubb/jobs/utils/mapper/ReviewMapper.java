@@ -7,6 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
@@ -27,5 +28,8 @@ public interface ReviewMapper {
 
     List<Review> toEntities(List<ReviewDto> dtos);
     List<ReviewDto> toDtos(List<Review> entities);
+
+    Set<Review> toSetEntities(Set<ReviewDto> dtos);
+    Set<ReviewDto> toSetDtos(Set<Review> entities);
 
 }

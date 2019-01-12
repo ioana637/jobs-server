@@ -11,15 +11,15 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface RecommendationMapper {
     @Mappings ({
-        @Mapping(target = "recommender.id", source = "recommender"),
-        @Mapping(target = "recommendedProvider.id", source = "recommendedProvider"),
-        @Mapping(target = "userFor.id", source = "userFor")
+        @Mapping(target = "recommender.id", source = "idRecommender"),
+        @Mapping(target = "recommendedProvider.id", source = "idRecommendedProvider"),
+        @Mapping(target = "userFor.id", source = "idUserFor")
     })
     RecommendationDto toDto(Recommendation entity);
     @Mappings({
-    @Mapping(target = "recommender", source = "recommender.id"),
-    @Mapping(target = "recommendedProvider", source = "recommendedProvider.id"),
-    @Mapping(target = "userFor", source = "userFor.id")
+    @Mapping(target = "idRecommender", source = "recommender.id"),
+    @Mapping(target = "idRecommendedProvider", source = "recommendedProvider.id"),
+    @Mapping(target = "idUserFor", source = "userFor.id")
     })
     Recommendation toEntity(RecommendationDto dto);
 

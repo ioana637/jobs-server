@@ -12,15 +12,15 @@ import java.util.List;
 public interface RequestMapper {
 
     @Mappings({
-            @Mapping(target = "userFrom", source = "userFrom.id"),
-            @Mapping(target = "userTo", source = "userTo.id"),
+            @Mapping(target = "idUserFrom", source = "userFrom.id"),
+            @Mapping(target = "idUserTo", source = "userTo.id"),
             @Mapping(target = "idJob", source = "job.id")
     })
     Request toEntity(RequestDto dto);
 
     @Mappings({
-            @Mapping(target = "userFrom.id", source = "userFrom"),
-            @Mapping(target = "userTo.id", source = "userTo"),
+            @Mapping(target = "userFrom.id", source = "idUserFrom"),
+            @Mapping(target = "userTo.id", source = "idUserTo"),
             @Mapping(target = "job.id", source = "idJob")
     })
     RequestDto toDto(Request entity);
