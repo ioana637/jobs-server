@@ -12,9 +12,9 @@ import java.util.List;
 
 @Repository
 public interface JpaJobRepo extends JpaRepository<Job, Integer> {
-    List<Job> findJobsByIdClient(Integer id);
+    List<Job> findJobsByIdClient_Id(Integer id);
     Job findJobById(Integer id);
-    Page<Job> findAllByIdClient(Integer id, Pageable pageable);
+    Page<Job> findAllByIdClient_Id(Integer id, Pageable pageable);
     List<Job> findJobsByCategoryIn(List<String> categories);
     List<Job> findJobsByProvidersContains(User user);
 }

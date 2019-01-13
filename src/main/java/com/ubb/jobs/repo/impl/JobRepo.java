@@ -77,7 +77,7 @@ public class JobRepo {
     }
 
     public List<JobDto> getForClientIdPaginated(Integer clientId, int pageNumber, int pageSize) {
-        Page<Job> jobs = jobRepo.findAllByIdClient(clientId, PageRequest.of(pageNumber, pageSize));
+        Page<Job> jobs = jobRepo.findAllByIdClient_Id(clientId, PageRequest.of(pageNumber, pageSize));
         return jobMapper.toDtos(jobs.getContent());
     }
 
