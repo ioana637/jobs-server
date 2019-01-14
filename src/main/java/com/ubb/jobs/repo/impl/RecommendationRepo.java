@@ -24,12 +24,12 @@ public class RecommendationRepo {
     }
 
     public List<RecommendationDto> findRecommendationReceived(Integer userFor){
-        List<Recommendation> recommendations = recommendationRepo.findAllByUserFor(userFor);
+        List<Recommendation> recommendations = recommendationRepo.findAllByIdUserFor(userFor);
         return recommendationMapper.toDtos(recommendations);
     }
 
     public List<RecommendationDto> findRecommendationGiven(Integer recommender){
-        List<Recommendation> recommendations = recommendationRepo.findAllByRecommender(recommender);
+        List<Recommendation> recommendations = recommendationRepo.findAllByIdRecommender(recommender);
         return recommendationMapper.toDtos(recommendations);
     }
 }

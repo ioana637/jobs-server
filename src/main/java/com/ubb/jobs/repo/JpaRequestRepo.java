@@ -8,7 +8,11 @@ import java.util.List;
 
 @Repository
 public interface JpaRequestRepo extends JpaRepository<Request, Integer> {
-    List<Request> findRequestByUserTo(Integer id);
+    List<Request> findRequestByIdUserTo(Integer id);
 
-    List<Request> findRequestByUserFrom(Integer id);
+    List<Request> findRequestByIdUserFrom(Integer id);
+
+    Request findRequestById(Integer id);
+
+    List<Request> findRequestByIdJob(Integer id);
 }

@@ -11,4 +11,6 @@ public class EndPoint {
 
     public static final String REGISTER = "/register";
     public static final String USER_ABILITY = "/user";
+
+    public static final String STATISTICS = "/statistics";
 }

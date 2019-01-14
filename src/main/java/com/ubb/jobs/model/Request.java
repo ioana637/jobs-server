@@ -19,10 +19,10 @@ public class Request {
     private Integer id;
 
     @Column(name = "USER_FROM")
-    private Integer userFrom;
+    private Integer idUserFrom;
 
     @Column(name = "USER_TO")
-    private Integer userTo;
+    private Integer idUserTo;
 
     @Column(name = "JOB")
     private Integer idJob;

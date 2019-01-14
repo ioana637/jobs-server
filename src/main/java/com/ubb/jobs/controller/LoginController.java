@@ -1,5 +1,6 @@
 package com.ubb.jobs.controller;
 
+import com.ubb.jobs.dto.AbilityDto;
 import com.ubb.jobs.dto.UserDto;
 import com.ubb.jobs.service.UserService;
 import com.ubb.jobs.utils.constants.EndPoint;
@@ -12,9 +13,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import javax.mail.Message;
-import javax.mail.internet.MimeMessage;
 import java.util.List;
 
 @CrossOrigin
@@ -30,7 +28,7 @@ public class LoginController {
     public ResponseEntity<UserDto> login() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String password = SecurityContextHolder.getContext().getAuthentication().getCredentials().toString();
-        UserDto userDto = service.login(username, password);
+        UserDto userDto = service.getUser(username, password);
         if (userDto == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(userDto, HttpStatus.OK);
@@ -58,6 +56,28 @@ public class LoginController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping("/rating={starAvg}")
+    public ResponseEntity<List<UserDto>> getProvidersByRating(@PathVariable("starAvg") Float starAvg) {
+        List<UserDto> allProviders = service.getProvidersByRating(starAvg);
+        if (allProviders == null) {
+            log.info("Unable to find any providers");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Returning " + allProviders.size());
+        return new ResponseEntity<>(allProviders, HttpStatus.OK);
+    }
+
+    @GetMapping("/abilities={abilities}")
+    public ResponseEntity<List<UserDto>> getProvidersByAbilities(@PathVariable("abilities") List<Integer> abilities){
+        List<UserDto> allProviders = service.getProvidersByAbilities(abilities);
+        if (allProviders == null) {
+            log.info("Unable to find any providers");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Returning " + allProviders.size());
+        return new ResponseEntity<>(allProviders, HttpStatus.OK);
+    }
+
     @GetMapping("providers")
     public ResponseEntity<List<UserDto>> getProviders() {
         List<UserDto> users = service.findProviders();
@@ -75,6 +95,17 @@ public class LoginController {
         if (users == null) {
             log.info("Unable to find any clients for the given user");
 
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        log.info("Returning " + users.size());
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/{userId}/clients")
+    public ResponseEntity<List<UserDto>> getClientContributors(@PathVariable("userId") String userId){
+        List<UserDto> users=service.getClientColaborators(Integer.parseInt(userId));
+        if (users == null) {
+            log.info("Unable to find any clients for this provider");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         log.info("Returning " + users.size());

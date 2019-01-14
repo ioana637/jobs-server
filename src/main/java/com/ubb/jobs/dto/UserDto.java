@@ -53,4 +53,21 @@ public class UserDto {
     private String starAvg;
 
     private List<AbilityDto> abilities;
+
+    private List<RecommendationDto> recommendations;
+
+    private List<RecommendationDto> recommendationsProvider;
+
+    private List<RecommendationDto> userFor;
+//
+    private List<RequestDto> requestsMade;
+//
+    private List<RequestDto> requestsReceived;
+//
+    private List<ReviewDto> reviewsMade;
+
+    private List<ReviewDto> reviewsReceived;
+
+//    private List<JobDto> jobs;
+
 }

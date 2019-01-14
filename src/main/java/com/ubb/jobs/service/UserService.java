@@ -1,19 +1,15 @@
 package com.ubb.jobs.service;
 
 import com.ubb.jobs.dto.*;
+import com.ubb.jobs.model.Job;
 import com.ubb.jobs.model.Role;
 import com.ubb.jobs.model.User;
-import com.ubb.jobs.repo.impl.AbilityRepo;
-import com.ubb.jobs.repo.impl.ReviewRepo;
-import com.ubb.jobs.repo.impl.UserAbilityRepo;
-import com.ubb.jobs.repo.impl.UserRepo;
+import com.ubb.jobs.repo.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalDouble;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -31,17 +27,30 @@ public class UserService {
     @Autowired
     private AbilityRepo abilityRepo;
 
+    @Autowired
+    private JobRepo jobRepo;
+
+    @Transactional
     public UserDto login(String username, String password) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
         return userRepo.getByUsernameAndPassword(user);
+
     }
 
     @Transactional
     public UserDto add(UserDto dto) {
         if (dto.getId() != null) {
             userAbilityRepo.removeAllByUserId(Integer.valueOf(dto.getId()));
+            UserDto user = userRepo.getOne(Integer.valueOf(dto.getId()));
+            dto.setRecommendations(user.getRecommendations());
+            dto.setReviewsReceived(user.getReviewsReceived());
+            dto.setReviewsMade(user.getReviewsMade());
+            dto.setRecommendationsProvider(user.getRecommendationsProvider());
+            dto.setRequestsMade(user.getRequestsMade());
+            dto.setRequestsReceived(user.getRequestsReceived());
+            dto.setUserFor(user.getUserFor());
         }
         List<AbilityDto> abilityDtos = abilityRepo.saveAll(dto.getAbilities());
         for (int i = 0; i < abilityDtos.size(); i++)
@@ -57,6 +66,14 @@ public class UserService {
         }).collect(Collectors.toList());
         userAbilityRepo.saveAll(userAbilitiesDtos);
         return saved;
+    }
+
+    public UserDto getUser(String username, String password) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        UserDto loggedUser = userRepo.getByUsernameAndPassword(user);
+        return addAbilityToUsers(Arrays.asList(loggedUser)).get(0);
     }
 
     private Double calculateMeanStars(Integer userId) {
@@ -102,6 +119,32 @@ public class UserService {
     public List<UserDto> findProviders(){
         List<UserDto>dtos=userRepo.findProviders(Role.PROVIDER);
         return addAbilityToUsers(dtos);
+    }
+
+    public List<UserDto> getProvidersByRating(Float starAvg){
+        List<UserDto> dtos = userRepo.findProviders(Role.PROVIDER);
+        dtos = dtos.stream().map(dto-> {
+            List<ReviewDto> reviewDtos = reviewRepo.findReviewsForUser(Integer.valueOf(dto.getId()));
+            dto.setStarAvg(String.valueOf(reviewDtos.stream().mapToDouble(review-> Float.valueOf(review.getStars())).average().orElse(0.0)));
+            return dto;
+        }).filter(dto-> Float.valueOf(dto.getStarAvg()) >= starAvg).collect(Collectors.toList());
+        return addAbilityToUsers(dtos);
+    }
+
+    public List<UserDto> getProvidersByAbilities(List<Integer> abilities){
+        List<UserDto> dtos = userRepo.getProvidersByAbilities(Role.PROVIDER,abilities);
+        return addAbilityToUsers(dtos);
+    }
+
+    public List<UserDto> getClientColaborators(Integer userId){
+        UserDto provider=userRepo.getOne(userId);
+        List<UserDto> clientColaborators=new ArrayList<>();
+        List<JobDto> jobs=jobRepo.findAll();
+        for (JobDto job:jobs) {
+            if(job.getProviders().contains(provider))
+                clientColaborators.add(userRepo.getOne(Integer.parseInt(job.getIdClient())));
+        }
+        return addAbilityToUsers(clientColaborators);
     }
 
 }

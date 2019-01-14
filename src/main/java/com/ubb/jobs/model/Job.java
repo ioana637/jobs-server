@@ -25,12 +25,15 @@ public class Job  {
     @Column(name = "TITLE")
     private String title;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "JOB")
     private List<Request> requests;
 
-    @Column(name = "ID_CLIENT")
-    private Integer idClient;
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "ID_CLIENT")
+//    @Column(name = "ID_CLIENT")
+    private User idClient;
+//    private Integer idClient;
 
     @Column(name = "PERIOD_START")
     @Convert(converter = LocalDateConverter.class)
@@ -63,7 +66,7 @@ public class Job  {
     @Column(name = "HOURS_PER_WEEK")
     private Integer hoursPerWeek;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "Providers_Jobs",
             joinColumns = {@JoinColumn(name= "ID_JOB")},
@@ -78,13 +81,17 @@ public class Job  {
     @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime date;
 
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID_JOB")
+    private Set<Review> usersReviewed;
+
     @Column(name = "LOCATION")
     String location;
 
 //    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 //    @JoinTable(name ="JobAbility", joinColumns = @JoinColumn(name = "CODE_JOB"),
 //    inverseJoinColumns = @JoinColumn(name = "CODE_ABILITY"))
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "job", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "job", fetch = FetchType.EAGER)
 //    @ElementCollection
 //    @CollectionTable(name = "JobAbility", joinColumns = @JoinColumn(name = "CODE_JOB"))
 //    @MapKeyJoinColumn(name = "CODE_ABILITY")
