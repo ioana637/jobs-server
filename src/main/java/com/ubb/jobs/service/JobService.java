@@ -10,8 +10,9 @@ import com.ubb.jobs.repo.impl.AbilityRepo;
 import com.ubb.jobs.repo.impl.JobAbilityRepo;
 import com.ubb.jobs.repo.impl.JobRepo;
 import com.ubb.jobs.repo.impl.UserRepo;
-import com.ubb.jobs.utils.MailSender;
+import com.ubb.jobs.utils.mail.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +20,6 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,6 +28,7 @@ import java.util.stream.Collectors;
 public class JobService {
 
     @Autowired
+    @Qualifier("MailSender")
     private MailSender sender;
 
     @Autowired
@@ -106,12 +106,12 @@ public class JobService {
 
     private void alertUsers(JobDto saved, Boolean newJob) {
         List<UserDto> users = userRepo.findSubscribedProviders();
-        String[] mails = (String[])users.stream().map(UserDto::getEmail).collect(Collectors.toList()).toArray();
-        sender.sendMail(newJob ? "Job nou adaugat" : "Detalii noi legate de job",  newJob ? "S-a adaugat job-ul: " : "Intra in aplicatie pentru a vedea detaliile noi legate de jobul " + saved.getTitle(), mails);
+        String[] mails = users.stream().map(UserDto::getEmail).toArray(String[]::new);
+        sender.sendMail(!newJob ? "Job nou adaugat" : "Detalii noi legate de job",  !newJob ? "S-a adaugat job-ul: " : "Intra in aplicatie pentru a vedea detaliile noi legate de jobul " + saved.getTitle(), mails);
     }
     private void alertEmployee(JobDto job, Integer size) {
         UserDto user = userRepo.getOne(Integer.valueOf(job.getIdClient()));
-        sender.sendMail("Persoane au acceptat jobul", size+ " persoane noi au acceptat jobul " + job.getTitle()+ ", intra in aplicatie sa aflii mai multe detalii", user.getEmail());
+        sender.sendMail("Persoane au acceptat jobul", size+ " persoane noi au acceptat jobul " + job.getTitle()+ ", intra in aplicatie sa afli mai multe detalii", user.getEmail());
     }
     public JobDto getJobById(Integer id) {
         JobDto job = jobRepo.findJobById(id);

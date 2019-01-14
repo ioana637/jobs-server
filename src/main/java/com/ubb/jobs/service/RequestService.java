@@ -7,7 +7,9 @@ import com.ubb.jobs.model.Request;
 import com.ubb.jobs.repo.impl.JobRepo;
 import com.ubb.jobs.repo.impl.RequestRepo;
 import com.ubb.jobs.repo.impl.UserRepo;
+import com.ubb.jobs.utils.mail.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,6 +21,10 @@ public class RequestService {
     private RequestRepo requestRepo;
 
     @Autowired
+    @Qualifier("MailSender")
+    private MailSender mailSender;
+
+    @Autowired
     private UserRepo userRepo;
 
     @Autowired
@@ -26,6 +32,9 @@ public class RequestService {
 
     public RequestDto add(RequestDto dto) {
         RequestDto saved =  requestRepo.addRequest(dto);
+        UserDto userFrom = userRepo.getOne(Integer.valueOf(saved.getUserFrom().getId()));
+        UserDto userTo = userRepo.getOne(Integer.valueOf(saved.getUserTo().getId()));
+        mailSender.sendMail("Cerere noua din partea userului " + userFrom.getUsername(), "Intra in aplicatie pentru afla mai multe detalii", userTo.getEmail());
         return saved;
     }
 

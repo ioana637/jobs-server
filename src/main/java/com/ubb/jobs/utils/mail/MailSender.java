@@ -1,11 +1,11 @@
-package com.ubb.jobs.utils;
+package com.ubb.jobs.utils.mail;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component(value = "MailSender")
 public class MailSender {
     @Autowired
     private JavaMailSender sender;
