@@ -2,6 +2,7 @@ package com.ubb.jobs.controller;
 
 
 import com.ubb.jobs.dto.JobDto;
+import com.ubb.jobs.dto.StatisticsDto;
 import com.ubb.jobs.service.StatisticsService;
 import com.ubb.jobs.utils.constants.EndPoint;
 import lombok.extern.slf4j.Slf4j;
@@ -21,28 +22,14 @@ public class StatisticsController {
     @Autowired
     private StatisticsService statisticsService;
 
-    @GetMapping("/clients")
-    public ResponseEntity<Double> getStatsClients(){
-        Double mean= statisticsService.statsClients();
-        return  new ResponseEntity<>(mean, HttpStatus.OK);
+    @GetMapping()
+    public ResponseEntity<StatisticsDto> getStatistics() {
+        try {
+            StatisticsDto statisticsDto = statisticsService.getStatistics();
+            return new ResponseEntity<>(statisticsDto, HttpStatus.OK);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
-    @GetMapping("/providers")
-    public ResponseEntity<Double> getStatsProviders(){
-        Double mean= statisticsService.statsProviders();
-        return  new ResponseEntity<>(mean, HttpStatus.OK);
-    }
-
-    @GetMapping("/allJobs")
-    public ResponseEntity<List<JobDto>> getAllJobs() {
-        List<JobDto> jobs = statisticsService.getAllJobs();
-        return new ResponseEntity<>(jobs, HttpStatus.OK);
-    }
-
-    @GetMapping("/availableJobs")
-    public ResponseEntity<List<JobDto>> getAvailableJobs() {
-        List<JobDto> jobs = statisticsService.getAvailableJobs();
-        return new ResponseEntity<>(jobs, HttpStatus.OK);
-    }
-
 }
