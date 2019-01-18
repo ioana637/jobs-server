@@ -96,7 +96,7 @@ public class JobService {
             JobAbilityDto jobAbilityDto = new JobAbilityDto();
             jobAbilityDto.setAbility(abilityDto);
             jobAbilityDto.setJob(saved);
-            jobAbilityDto.setLevel(abilityDto.getLevel());
+            jobAbilityDto.setLevel(abilityDto.getLevel().toUpperCase());
             return jobAbilityDto;
         }).collect(Collectors.toList());
         jobAbilityRepo.saveAll(jobAbilityDtos);
