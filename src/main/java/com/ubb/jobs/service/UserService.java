@@ -61,7 +61,7 @@ public class UserService {
             UserAbilitiesDto userAbilitiesDto= new UserAbilitiesDto();
             userAbilitiesDto.setAbility(abilityDto);
             userAbilitiesDto.setUser(saved);
-            userAbilitiesDto.setLevel(abilityDto.getLevel());
+            userAbilitiesDto.setLevel(abilityDto.getLevel().toUpperCase());
             return userAbilitiesDto;
         }).collect(Collectors.toList());
         userAbilityRepo.saveAll(userAbilitiesDtos);
