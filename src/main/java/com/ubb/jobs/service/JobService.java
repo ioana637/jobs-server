@@ -10,7 +10,9 @@ import com.ubb.jobs.repo.impl.AbilityRepo;
 import com.ubb.jobs.repo.impl.JobAbilityRepo;
 import com.ubb.jobs.repo.impl.JobRepo;
 import com.ubb.jobs.repo.impl.UserRepo;
+import com.ubb.jobs.utils.mail.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,10 @@ import java.util.stream.Collectors;
 
 @Component
 public class JobService {
+
+    @Autowired
+    @Qualifier("MailSender")
+    private MailSender sender;
 
     @Autowired
     private JobRepo jobRepo;
@@ -68,7 +74,9 @@ public class JobService {
 
     @Transactional
     public JobDto add(JobDto dto) {
+        Boolean newJob = false;
         if (dto.getId() != null) {
+            newJob = true;
             JobDto job = jobRepo.getOne(Integer.valueOf(dto.getId()));
             jobAbilityRepo.removeByJobId(Integer.valueOf(dto.getId()));
             dto.setUsersReviewed(job.getUsersReviewed());
@@ -92,9 +100,19 @@ public class JobService {
             return jobAbilityDto;
         }).collect(Collectors.toList());
         jobAbilityRepo.saveAll(jobAbilityDtos);
+        alertUsers(saved, newJob);
         return saved;
     }
 
+    private void alertUsers(JobDto saved, Boolean newJob) {
+        List<UserDto> users = userRepo.findSubscribedProviders();
+        String[] mails = users.stream().map(UserDto::getEmail).toArray(String[]::new);
+        sender.sendMail(!newJob ? "Job nou adaugat" : "Detalii noi legate de job",  !newJob ? "S-a adaugat job-ul: " : "Intra in aplicatie pentru a vedea detaliile noi legate de jobul " + saved.getTitle(), mails);
+    }
+    private void alertEmployee(JobDto job, Integer size) {
+        UserDto user = userRepo.getOne(Integer.valueOf(job.getIdClient()));
+        sender.sendMail("Persoane au acceptat jobul", size+ " persoane noi au acceptat jobul " + job.getTitle()+ ", intra in aplicatie sa afli mai multe detalii", user.getEmail());
+    }
     public JobDto getJobById(Integer id) {
         JobDto job = jobRepo.findJobById(id);
         job.getAbilities().forEach(ability -> {
@@ -119,6 +137,7 @@ public class JobService {
         if (!jobAvailable(job, employees))
             return null;
         Set<UserDto> users = employees.stream().map(unique -> userRepo.getOne(Integer.valueOf(unique))).collect(Collectors.toSet());
+        Integer subscribers = users.size();
         if (job.getProviders() != null)
             users.addAll(job.getProviders());
         job.setAbilities(null);
@@ -128,6 +147,7 @@ public class JobService {
             provider.setPassword(null);
             return provider;
         }).collect(Collectors.toSet()));
+        alertEmployee(job, subscribers);
         return job;
     }
 

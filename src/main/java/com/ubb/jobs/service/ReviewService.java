@@ -7,7 +7,9 @@ import com.ubb.jobs.model.Review;
 import com.ubb.jobs.repo.impl.JobRepo;
 import com.ubb.jobs.repo.impl.ReviewRepo;
 import com.ubb.jobs.repo.impl.UserRepo;
+import com.ubb.jobs.utils.mail.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -18,13 +20,17 @@ import java.util.stream.Collectors;
 @Component
 public class ReviewService {
     @Autowired
-    ReviewRepo reviewRepo;
+    private ReviewRepo reviewRepo;
 
     @Autowired
-    JobRepo jobRepo;
+    @Qualifier("MailSender")
+    private MailSender mailSender;
 
     @Autowired
-    UserRepo userRepo;
+    private JobRepo jobRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
     public List<ReviewDto> getReviewsOrdered(){
         List<ReviewDto> dtos = reviewRepo.getOrderedReviews();
@@ -32,6 +38,9 @@ public class ReviewService {
     }
     public ReviewDto add(ReviewDto dto) {
        ReviewDto reviewDto = reviewRepo.addReview(dto);
+        UserDto userFrom = userRepo.getOne(Integer.valueOf(reviewDto.getUserFrom().getId()));
+        UserDto userTo = userRepo.getOne(Integer.valueOf(reviewDto.getUserFor().getId()));
+       mailSender.sendMail("Ai primit un nou review din partea userului " + userFrom.getUsername(), "Intra in aplicatie pentru mai multe detalii", userTo.getEmail());
        return reviewDto;
     }
 

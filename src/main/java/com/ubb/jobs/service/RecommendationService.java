@@ -4,7 +4,9 @@ import com.ubb.jobs.dto.*;
 import com.ubb.jobs.model.Ability;
 import com.ubb.jobs.model.Recommendation;
 import com.ubb.jobs.repo.impl.*;
+import com.ubb.jobs.utils.mail.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,6 +15,11 @@ import java.util.stream.Collectors;
 
 @Component
 public class RecommendationService {
+
+    @Autowired
+    @Qualifier("MailSender")
+    private MailSender mailSender;
+
     @Autowired
     private RecommendationRepo recommendationRepo;
 
@@ -38,6 +45,7 @@ public class RecommendationService {
         saved.setUserFor(userFor);
         saved.setRecommendedProvider(provider);
         saved.setRecommender(recommender);
+        mailSender.sendMail("Ai primit o noua recomandare", "Userul " + recommender.getUsername() + " ti-a facut o recomandare", userFor.getEmail());
         return saved;
     }
 

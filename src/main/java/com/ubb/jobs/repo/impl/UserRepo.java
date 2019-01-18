@@ -56,6 +56,12 @@ public class UserRepo {
         List<User> users = jpaUserRepo.findAllByRole(role);
         return userMapper.toDtos(users);
     }
+
+
+    public List<UserDto> findSubscribedProviders() {
+        List<User> users = jpaUserRepo.findAllByRoleAndSubscribed(Role.PROVIDER, true);
+        return userMapper.toDtos(users);
+    }
     public List<UserDto> getProvidersByAbilities(Role role, List<Integer> abilities){
         List<User> allProviders = jpaUserRepo.findAllByRole(role);
         List<User> providers = new ArrayList<>();
@@ -67,7 +73,7 @@ public class UserRepo {
         }
 
         return userMapper.toDtos(providers);
-}
+    }
 
 
     private boolean hasThisAbility(User user, List<Integer> abilities) {
