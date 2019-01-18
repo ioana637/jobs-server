@@ -1,10 +1,10 @@
 package com.ubb.jobs.service;
 
 import com.ubb.jobs.dto.JobDto;
+import com.ubb.jobs.dto.StatisticsDto;
 import com.ubb.jobs.dto.UserDto;
 import com.ubb.jobs.model.JobStatus;
 import com.ubb.jobs.model.Role;
-import com.ubb.jobs.model.User;
 import com.ubb.jobs.repo.impl.JobRepo;
 import com.ubb.jobs.repo.impl.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,21 @@ public class StatisticsService {
     @Autowired
     private JobRepo jobRepo;
 
+    public StatisticsDto getStatistics() {
+        int nrOfProviders = userRepo.findProviders(Role.PROVIDER).size();
+        double providersWithJobPercentage = 100*getNumberProviders()/nrOfProviders;
 
-    public double statsProviders(){
-        int nr_providers =userRepo.findProviders(Role.PROVIDER).size();
-        return 100*getNumberProviders()/nr_providers;
+        int nrClients= userRepo.findClients(Role.CLIENT).size();
+        double clientsWithJobPercentage = 100*getNumberClients()/nrClients;
+
+        int usersWithMaxRating = userRepo.getUsersWithMaxRatingCount();
+
+        int noOfContracts = jobRepo.getNoContracts();
+
+        int noOfAvailableJobs = getAvailableJobs().size();
+
+        return new StatisticsDto(providersWithJobPercentage, nrOfProviders,
+                clientsWithJobPercentage, usersWithMaxRating, noOfContracts, noOfAvailableJobs);
     }
 
     private double getNumberProviders(){
@@ -37,11 +48,6 @@ public class StatisticsService {
 
     }
 
-    public double statsClients(){
-        int nr_clients= userRepo.findClients(Role.CLIENT).size();
-        return 100*getNumberClients()/nr_clients;
-    }
-
     private double getNumberClients(){
         Set<String> clients= new HashSet<>();
         List<JobDto> jobs= jobRepo.findAll();
@@ -50,11 +56,6 @@ public class StatisticsService {
                 clients.add(job.getIdClient());
         }
         return clients.size();
-    }
-
-    public List<JobDto> getAllJobs() {
-        List<JobDto> dtos = jobRepo.findAll();
-        return dtos;
     }
 
     public List<JobDto> getAvailableJobs() {

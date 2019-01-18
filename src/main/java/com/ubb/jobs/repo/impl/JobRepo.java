@@ -99,5 +99,11 @@ public class JobRepo {
         return jobMapper.toDto(jpaJobRepo.findJobById(id));
     }
 
+    public int getNoContracts() {
+        return (int)jobRepo.findAll()
+                .stream()
+                .filter(job -> job.getProviders() != null && job.getProviders().size() >= 1)
+                .count();
+    }
 
 }
