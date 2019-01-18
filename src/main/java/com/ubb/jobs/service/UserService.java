@@ -98,13 +98,6 @@ public class UserService {
             Double stars = calculateMeanStars(Integer.valueOf(userDto.getId()));
             userDto.setStarAvg(stars == null ? null : String.valueOf(stars));
             userDto.setPassword(null);
-            userDto.setPostalCode(null);
-            userDto.setAddress(null);
-            userDto.setBirthDate(null);
-            userDto.setSubscribed(null);
-            userDto.setFacebook(null);
-            userDto.setInstagram(null);
-            userDto.setTwitter(null);
             userDto.setAbilities(abilities);
             return userDto;
         }).collect(Collectors.toList());
