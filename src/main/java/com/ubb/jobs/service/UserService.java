@@ -92,7 +92,7 @@ public class UserService {
             List<UserAbilitiesDto> userAbilitiesDtos = userAbilityRepo.findAllByUser(Integer.valueOf(userDto.getId()));
             List<AbilityDto> abilities = userAbilitiesDtos.stream().map(userAbility-> {
                 AbilityDto abilityDto = userAbility.getAbility();
-                abilityDto.setLevel(userAbility.getLevel());
+                abilityDto.setLevel(userAbility.getLevel().toUpperCase());
                 return abilityDto;
             }).collect(Collectors.toList());
             Double stars = calculateMeanStars(Integer.valueOf(userDto.getId()));
