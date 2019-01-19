@@ -45,7 +45,7 @@ public class ReviewController {
     @GetMapping
     public  ResponseEntity<List<ReviewDto>> getAll(){
         List<ReviewDto> reviewDtos= reviewService.getReviewsOrdered();
-        if(reviewDtos.isEmpty()) {
+        if(reviewDtos == null) {
             log.info("No entries");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -56,7 +56,7 @@ public class ReviewController {
     @GetMapping("/{userId}")
     public ResponseEntity<List<ReviewDto>> getByUserId(@PathVariable Integer userId){
         List<ReviewDto> reviewDtos = reviewService.getReviewsOfUser(userId);
-        if(reviewDtos.isEmpty()) {
+        if(reviewDtos == null) {
             log.info("No entries");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -66,7 +66,7 @@ public class ReviewController {
     @GetMapping("/forUser/{forUserId}")
     public ResponseEntity<List<ReviewDto>> getReviewsByUserId(@PathVariable Integer forUserId){
         List<ReviewDto> reviewDtos = reviewService.getReviewsForUser(forUserId);
-        if(reviewDtos.isEmpty()) {
+        if(reviewDtos == null) {
             log.info("No entries");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

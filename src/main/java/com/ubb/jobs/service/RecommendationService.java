@@ -45,7 +45,12 @@ public class RecommendationService {
         saved.setUserFor(userFor);
         saved.setRecommendedProvider(provider);
         saved.setRecommender(recommender);
-        mailSender.sendMail("Ai primit o noua recomandare", "Userul " + recommender.getUsername() + " ti-a facut o recomandare", userFor.getEmail());
+        Thread mailThread = new Thread(()->
+        {
+            mailSender.sendMail("Ai primit o noua recomandare", "Userul " + recommender.getUsername() + " ti-a facut o recomandare", userFor.getEmail());
+
+        });
+        mailThread.start();
         return saved;
     }
 

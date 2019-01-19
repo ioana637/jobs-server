@@ -100,7 +100,10 @@ public class JobService {
             return jobAbilityDto;
         }).collect(Collectors.toList());
         jobAbilityRepo.saveAll(jobAbilityDtos);
-        alertUsers(saved, newJob);
+        Thread mailThread = new Thread(()->{
+            alertUsers(saved, dto.getId() != null);
+        });
+        mailThread.start();
         return saved;
     }
 
@@ -147,7 +150,11 @@ public class JobService {
             provider.setPassword(null);
             return provider;
         }).collect(Collectors.toSet()));
-        alertEmployee(job, subscribers);
+        final JobDto mailJob = job;
+        Thread mailThread = new Thread(()->{
+            alertEmployee(mailJob, subscribers);
+        });
+        mailThread.start();
         return job;
     }
 

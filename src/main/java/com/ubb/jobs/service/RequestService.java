@@ -34,7 +34,10 @@ public class RequestService {
         RequestDto saved =  requestRepo.addRequest(dto);
         UserDto userFrom = userRepo.getOne(Integer.valueOf(saved.getUserFrom().getId()));
         UserDto userTo = userRepo.getOne(Integer.valueOf(saved.getUserTo().getId()));
-        mailSender.sendMail("Cerere noua din partea userului " + userFrom.getUsername(), "Intra in aplicatie pentru afla mai multe detalii", userTo.getEmail());
+        Thread mailThread = new Thread(()->{
+            mailSender.sendMail("Cerere noua din partea userului " + userFrom.getUsername(), "Intra in aplicatie pentru afla mai multe detalii", userTo.getEmail());
+        });
+        mailThread.start();
         return saved;
     }
 

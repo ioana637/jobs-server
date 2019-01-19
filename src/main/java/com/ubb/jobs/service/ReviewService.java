@@ -40,7 +40,10 @@ public class ReviewService {
        ReviewDto reviewDto = reviewRepo.addReview(dto);
         UserDto userFrom = userRepo.getOne(Integer.valueOf(reviewDto.getUserFrom().getId()));
         UserDto userTo = userRepo.getOne(Integer.valueOf(reviewDto.getUserFor().getId()));
-       mailSender.sendMail("Ai primit un nou review din partea userului " + userFrom.getUsername(), "Intra in aplicatie pentru mai multe detalii", userTo.getEmail());
+       Thread mailThread = new Thread(()->{
+           mailSender.sendMail("Ai primit un nou review din partea userului " + userFrom.getUsername(), "Intra in aplicatie pentru mai multe detalii", userTo.getEmail());
+       });
+       mailThread.start();
        return reviewDto;
     }
 
